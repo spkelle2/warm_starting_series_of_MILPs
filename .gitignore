@@ -1,3 +1,22 @@
+# latex
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+
+# beamer extra
+*.bcf
+*.nav
+*.run.xml
+*.snm
+*.toc
+
+*.csv
+*.mps
+*.lp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

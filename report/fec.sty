@@ -1,0 +1,389 @@
+%**********
+% Packages
+%**********
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amsthm}
+\RequirePackage{amssymb}
+\RequirePackage{hyperref}
+\RequirePackage{multirow}
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
+
+%**********
+% Commands
+%**********
+% Math commands:
+\newcommand{\half} {\frac12}
+\newcommand{\thalf}{\tfrac12}
+% Redefined math commands:
+\renewcommand{\(}{\left(}
+\renewcommand{\)}{\right)}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+% Math commands with arguments
+\newcommand{\C}[1]{\mathbb{C}^{#1}}
+\newcommand{\N}[1]{\mathbb{N}^{#1}}
+\newcommand{\Q}[1]{\mathbb{Q}^{#1}}
+\newcommand{\R}[1]{\mathbb{R}^{#1}}
+\newcommand{\Rext}[1]{\skew{-2}\overline{\mathbb{R}}^{#1}}
+\newcommand{\Z}[1]{\mathbb{Z}^{#1}}
+
+%*************
+% Begin...End
+%*************
+\newcommand{\balgorithm}   {\begin{algorithm}}
+\newcommand{\ealgorithm}   {\end{algorithm}}
+\newcommand{\balgorithmic} {\begin{algorithmic}}
+\newcommand{\ealgorithmic} {\end{algorithmic}}
+\newcommand{\baligned}     {\begin{aligned}}
+\newcommand{\ealigned}     {\end{aligned}}
+\newcommand{\barray}       {\begin{array}}
+\newcommand{\earray}       {\end{array}}
+\newcommand{\bassumption}  {\begin{assumption}}
+\newcommand{\eassumption}  {\end{assumption}}
+\newcommand{\bbmatrix}     {\begin{bmatrix}}
+\newcommand{\ebmatrix}     {\end{bmatrix}}
+\newcommand{\bcases}       {\begin{cases}}
+\newcommand{\ecases}       {\end{cases}}
+\newcommand{\bcenter}      {\begin{center}}
+\newcommand{\ecenter}      {\end{center}}
+\newcommand{\bcolumn}      {\begin{column}}
+\newcommand{\ecolumn}      {\end{column}}
+\newcommand{\bcolumns}     {\begin{columns}}
+\newcommand{\ecolumns}     {\end{columns}}
+\newcommand{\bcorollary}   {\begin{corollary}}
+\newcommand{\ecorollary}   {\end{corollary}}
+\newcommand{\bdefinition}  {\begin{definition}}
+\newcommand{\edefinition}  {\end{definition}}
+\newcommand{\benumerate}   {\begin{enumerate}}
+\newcommand{\eenumerate}   {\end{enumerate}}
+\newcommand{\bequation}    {\begin{equation}}
+\newcommand{\eequation}    {\end{equation}}
+\newcommand{\bequationNN}  {\begin{equation*}}
+\newcommand{\eequationNN}  {\end{equation*}}
+\newcommand{\bfigure}      {\begin{figure}}
+\newcommand{\efigure}      {\end{figure}}
+\newcommand{\bflushright}  {\begin{flushright}}
+\newcommand{\eflushright}  {\end{flushright}}
+\newcommand{\bitemize}     {\begin{itemize}}
+\newcommand{\eitemize}     {\end{itemize}}
+\newcommand{\blemma}       {\begin{lemma}}
+\newcommand{\elemma}       {\end{lemma}}
+\newcommand{\bpmatrix}     {\begin{pmatrix}}
+\newcommand{\epmatrix}     {\end{pmatrix}}
+\newcommand{\bproof}       {\begin{proof}}
+\newcommand{\eproof}       {\end{proof}}
+\newcommand{\bsubequations}{\begin{subequations}}
+\newcommand{\esubequations}{\end{subequations}}
+\newcommand{\btable}       {\begin{table}}
+\newcommand{\etable}       {\end{table}}
+\newcommand{\btabular}     {\begin{tabular}}
+\newcommand{\etabular}     {\end{tabular}}
+\newcommand{\bvmatrix}     {\begin{vmatrix}}
+\newcommand{\evmatrix}     {\end{vmatrix}}
+\newcommand{\bproblem}     {\begin{problem}}
+\newcommand{\eproblem}     {\end{problem}}
+\newcommand{\btheorem}     {\begin{theorem}}
+\newcommand{\etheorem}     {\end{theorem}}
+
+%****************
+% Math Operators
+%****************
+\DeclareMathOperator{\aff}      {aff}
+\DeclareMathOperator{\cl}       {cl}
+\DeclareMathOperator{\cone}     {cone}
+\DeclareMathOperator{\coni}     {coni}
+\DeclareMathOperator{\conv}     {conv}
+\DeclareMathOperator{\diag}     {diag}
+\DeclareMathOperator{\dom}      {dom}
+\DeclareMathOperator{\epi}      {epi}
+\DeclareMathOperator{\fl}       {fl}
+\DeclareMathOperator{\inertia}  {inertia}
+\DeclareMathOperator{\interior} {int}
+\DeclareMathOperator{\linspan}  {span}
+\DeclareMathOperator{\lin}      {lin}
+\DeclareMathOperator{\minimize} {minimize}
+\DeclareMathOperator{\Null}     {Null}
+\DeclareMathOperator{\paraff}   {par}
+\DeclareMathOperator{\proj}     {Proj}
+\DeclareMathOperator{\prox}     {prox}
+\DeclareMathOperator{\Range}    {Range}
+\DeclareMathOperator{\rank}     {rank}
+\DeclareMathOperator{\recc}     {recc}
+\DeclareMathOperator{\recf}     {recf}
+\DeclareMathOperator{\ri}       {ri}
+\DeclareMathOperator{\st}       {s.\!t.}
+\DeclareMathOperator{\subjectto}{subject~to}
+\DeclareMathOperator{\trace}    {tr}
+
+%*********
+% Letters
+%*********
+% Shorthand commands for (uppercase) calligraphic letters:
+\newcommand{\Acal}{{\cal A}}
+\newcommand{\Bcal}{{\cal B}}
+\newcommand{\Ccal}{{\cal C}}
+\newcommand{\Dcal}{{\cal D}}
+\newcommand{\Ecal}{{\cal E}}
+\newcommand{\Fcal}{{\cal F}}
+\newcommand{\Gcal}{{\cal G}}
+\newcommand{\Hcal}{{\cal H}}
+\newcommand{\Ical}{{\cal I}}
+\newcommand{\Jcal}{{\cal J}}
+\newcommand{\Kcal}{{\cal K}}
+\newcommand{\Lcal}{{\cal L}}
+\newcommand{\Mcal}{{\cal M}}
+\newcommand{\Ncal}{{\cal N}}
+\newcommand{\Ocal}{{\cal O}}
+\newcommand{\Pcal}{{\cal P}}
+\newcommand{\Qcal}{{\cal Q}}
+\newcommand{\Rcal}{{\cal R}}
+\newcommand{\Scal}{{\cal S}}
+\newcommand{\Tcal}{{\cal T}}
+\newcommand{\Ucal}{{\cal U}}
+\newcommand{\Vcal}{{\cal V}}
+\newcommand{\Wcal}{{\cal W}}
+\newcommand{\Xcal}{{\cal X}}
+\newcommand{\Ycal}{{\cal Y}}
+\newcommand{\Zcal}{{\cal Z}}
+% Shorthand commands for (uppercase) blackboard letters:
+\newcommand{\Ambb}{\mathbb{A}}
+\newcommand{\Bmbb}{\mathbb{B}}
+\newcommand{\Cmbb}{\mathbb{C}}
+\newcommand{\Dmbb}{\mathbb{D}}
+\newcommand{\Embb}{\mathbb{E}}
+\newcommand{\Fmbb}{\mathbb{F}}
+\newcommand{\Gmbb}{\mathbb{G}}
+\newcommand{\Hmbb}{\mathbb{H}}
+\newcommand{\Imbb}{\mathbb{I}}
+\newcommand{\Jmbb}{\mathbb{J}}
+\newcommand{\Kmbb}{\mathbb{K}}
+\newcommand{\Lmbb}{\mathbb{L}}
+\newcommand{\Mmbb}{\mathbb{M}}
+\newcommand{\Nmbb}{\mathbb{N}}
+\newcommand{\Ombb}{\mathbb{O}}
+\newcommand{\Pmbb}{\mathbb{P}}
+\newcommand{\Qmbb}{\mathbb{Q}}
+\newcommand{\Rmbb}{\mathbb{R}}
+\newcommand{\Smbb}{\mathbb{S}}
+\newcommand{\Tmbb}{\mathbb{T}}
+\newcommand{\Umbb}{\mathbb{U}}
+\newcommand{\Vmbb}{\mathbb{V}}
+\newcommand{\Wmbb}{\mathbb{W}}
+\newcommand{\Xmbb}{\mathbb{X}}
+\newcommand{\Ymbb}{\mathbb{Y}}
+\newcommand{\Zmbb}{\mathbb{Z}}
+% Declare shorthand commands for (lowercase and uppercase) boldface letters:
+\newcommand{\Ambf}{\mathbf{A}}
+\newcommand{\ambf}{\mathbf{a}}
+\newcommand{\Bmbf}{\mathbf{B}}
+\newcommand{\bmbf}{\mathbf{b}}
+\newcommand{\Cmbf}{\mathbf{C}}
+\newcommand{\cmbf}{\mathbf{c}}
+\newcommand{\Dmbf}{\mathbf{D}}
+\newcommand{\dmbf}{\mathbf{d}}
+\newcommand{\Embf}{\mathbf{E}}
+\newcommand{\embf}{\mathbf{e}}
+\newcommand{\Fmbf}{\mathbf{F}}
+\newcommand{\fmbf}{\mathbf{f}}
+\newcommand{\Gmbf}{\mathbf{G}}
+\newcommand{\gmbf}{\mathbf{g}}
+\newcommand{\Hmbf}{\mathbf{H}}
+\newcommand{\hmbf}{\mathbf{h}}
+\newcommand{\Imbf}{\mathbf{I}}
+\newcommand{\imbf}{\mathbf{i}}
+\newcommand{\Jmbf}{\mathbf{J}}
+\newcommand{\jmbf}{\mathbf{j}}
+\newcommand{\Kmbf}{\mathbf{K}}
+\newcommand{\kmbf}{\mathbf{k}}
+\newcommand{\Lmbf}{\mathbf{L}}
+\newcommand{\lmbf}{\mathbf{l}}
+\newcommand{\Mmbf}{\mathbf{M}}
+\newcommand{\mmbf}{\mathbf{m}}
+\newcommand{\Nmbf}{\mathbf{N}}
+\newcommand{\nmbf}{\mathbf{n}}
+\newcommand{\Ombf}{\mathbf{O}}
+\newcommand{\ombf}{\mathbf{o}}
+\newcommand{\Pmbf}{\mathbf{P}}
+\newcommand{\pmbf}{\mathbf{p}}
+\newcommand{\Qmbf}{\mathbf{Q}}
+\newcommand{\qmbf}{\mathbf{q}}
+\newcommand{\Rmbf}{\mathbf{R}}
+\newcommand{\rmbf}{\mathbf{r}}
+\newcommand{\Smbf}{\mathbf{S}}
+\newcommand{\smbf}{\mathbf{s}}
+\newcommand{\Tmbf}{\mathbf{T}}
+\newcommand{\tmbf}{\mathbf{t}}
+\newcommand{\Umbf}{\mathbf{U}}
+\newcommand{\umbf}{\mathbf{u}}
+\newcommand{\Vmbf}{\mathbf{V}}
+\newcommand{\vmbf}{\mathbf{v}}
+\newcommand{\Wmbf}{\mathbf{W}}
+\newcommand{\wmbf}{\mathbf{w}}
+\newcommand{\Xmbf}{\mathbf{X}}
+\newcommand{\xmbf}{\mathbf{x}}
+\newcommand{\Ymbf}{\mathbf{Y}}
+\newcommand{\ymbf}{\mathbf{y}}
+\newcommand{\Zmbf}{\mathbf{Z}}
+\newcommand{\zmbf}{\mathbf{z}}
+% Declare shorthand commands for (lowercase and uppercase) overlined letters:
+\newcommand{\oline}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1}}
+\newcommand{\Abar}{\oline{A}}
+\newcommand{\abar}{\oline{a}}
+\newcommand{\Bbar}{\oline{B}}
+\newcommand{\bbar}{\oline{b}}
+\newcommand{\Cbar}{\oline{C}}
+\newcommand{\cbar}{\oline{c}}
+\newcommand{\Dbar}{\oline{D}}
+\newcommand{\dbar}{\oline{d}}
+\newcommand{\Ebar}{\oline{E}}
+\newcommand{\ebar}{\oline{e}}
+\newcommand{\Fbar}{\oline{F}}
+\newcommand{\fbar}{\oline{f}}
+\newcommand{\Gbar}{\oline{G}}
+\newcommand{\gbar}{\oline{g}}
+\newcommand{\Hbar}{\oline{H}}
+\renewcommand{\hbar}{\oline{h}}
+\newcommand{\Ibar}{\oline{I}}
+\newcommand{\ibar}{\oline{i}}
+\newcommand{\Jbar}{\oline{J}}
+\newcommand{\jbar}{\oline{j}}
+\newcommand{\Kbar}{\oline{K}}
+\newcommand{\kbar}{\oline{k}}
+\newcommand{\Lbar}{\oline{L}}
+\newcommand{\lbar}{\oline{l}}
+\newcommand{\Mbar}{\skew{4}\overline{M}}
+\newcommand{\mbar}{\oline{m}}
+\newcommand{\Nbar}{\oline{N}}
+\newcommand{\nbar}{\oline{n}}
+\newcommand{\Obar}{\oline{O}}
+\newcommand{\obar}{\oline{o}}
+\newcommand{\Pbar}{\oline{P}}
+\newcommand{\pbar}{\oline{p}}
+\newcommand{\Qbar}{\oline{Q}}
+\newcommand{\qbar}{\oline{q}}
+\newcommand{\Rbar}{\oline{R}}
+\newcommand{\rbar}{\oline{r}}
+\newcommand{\Sbar}{\oline{S}}
+\newcommand{\sbar}{\oline{s}}
+\newcommand{\Tbar}{\oline{T}}
+\newcommand{\tbar}{\oline{t}}
+\newcommand{\Ubar}{\oline{U}}
+\newcommand{\ubar}{\oline{u}}
+\newcommand{\Vbar}{\oline{V}}
+\newcommand{\vbar}{\oline{v}}
+\newcommand{\Wbar}{\oline{W}}
+\newcommand{\wbar}{\oline{w}}
+\newcommand{\Xbar}{\oline{X}}
+\newcommand{\xbar}{\oline{x}}
+\newcommand{\Ybar}{\oline{Y}}
+\newcommand{\ybar}{\oline{y}}
+\newcommand{\Zbar}{\oline{Z}}
+\newcommand{\zbar}{\oline{z}}
+% Declare shorthand commands for (lowercase and uppercase) tilded letters:
+\newcommand{\Atilde}{\tilde{A}}
+\newcommand{\atilde}{\tilde{a}}
+\newcommand{\Btilde}{\tilde{B}}
+\newcommand{\btilde}{\tilde{b}}
+\newcommand{\Ctilde}{\tilde{C}}
+\newcommand{\ctilde}{\tilde{c}}
+\newcommand{\Dtilde}{\tilde{D}}
+\newcommand{\dtilde}{\tilde{d}}
+\newcommand{\Etilde}{\tilde{E}}
+\newcommand{\etilde}{\tilde{e}}
+\newcommand{\Ftilde}{\tilde{F}}
+\newcommand{\ftilde}{\tilde{f}}
+\newcommand{\Gtilde}{\tilde{G}}
+\newcommand{\gtilde}{\tilde{g}}
+\newcommand{\Htilde}{\tilde{H}}
+\newcommand{\htilde}{\tilde{h}}
+\newcommand{\Itilde}{\tilde{I}}
+\newcommand{\itilde}{\tilde{i}}
+\newcommand{\Jtilde}{\tilde{J}}
+\newcommand{\jtilde}{\tilde{j}}
+\newcommand{\Ktilde}{\tilde{K}}
+\newcommand{\ktilde}{\tilde{k}}
+\newcommand{\Ltilde}{\tilde{L}}
+\newcommand{\ltilde}{\tilde{l}}
+\newcommand{\Mtilde}{\tilde{M}}
+\newcommand{\mtilde}{\tilde{m}}
+\newcommand{\Ntilde}{\tilde{N}}
+\newcommand{\ntilde}{\tilde{n}}
+\newcommand{\Otilde}{\tilde{O}}
+\newcommand{\otilde}{\tilde{o}}
+\newcommand{\Ptilde}{\tilde{P}}
+\newcommand{\ptilde}{\tilde{p}}
+\newcommand{\Qtilde}{\tilde{Q}}
+\newcommand{\qtilde}{\tilde{q}}
+\newcommand{\Rtilde}{\tilde{R}}
+\newcommand{\rtilde}{\tilde{r}}
+\newcommand{\Stilde}{\tilde{S}}
+\newcommand{\stilde}{\tilde{s}}
+\newcommand{\Ttilde}{\tilde{T}}
+\newcommand{\ttilde}{\tilde{t}}
+\newcommand{\Utilde}{\tilde{U}}
+\newcommand{\utilde}{\tilde{u}}
+\newcommand{\Vtilde}{\tilde{V}}
+\newcommand{\vtilde}{\tilde{v}}
+\newcommand{\Wtilde}{\tilde{W}}
+\newcommand{\wtilde}{\tilde{w}}
+\newcommand{\Xtilde}{\tilde{X}}
+\newcommand{\xtilde}{\tilde{x}}
+\newcommand{\Ytilde}{\tilde{Y}}
+\newcommand{\ytilde}{\tilde{y}}
+\newcommand{\Ztilde}{\tilde{Z}}
+\newcommand{\ztilde}{\tilde{z}}
+% Declare shorthand commands for (lowercase and uppercase) hatted letters:
+\newcommand{\Ahat}{\hat{A}}
+\newcommand{\ahat}{\hat{a}}
+\newcommand{\Bhat}{\hat{B}}
+\newcommand{\bhat}{\hat{b}}
+\newcommand{\Chat}{\hat{C}}
+\newcommand{\chat}{\hat{c}}
+\newcommand{\Dhat}{\hat{D}}
+\newcommand{\dhat}{\hat{d}}
+\newcommand{\Ehat}{\hat{E}}
+\newcommand{\ehat}{\hat{e}}
+\newcommand{\Fhat}{\hat{F}}
+\newcommand{\fhat}{\hat{f}}
+\newcommand{\Ghat}{\hat{G}}
+\newcommand{\ghat}{\hat{g}}
+\newcommand{\Hhat}{\hat{H}}
+\newcommand{\hhat}{\hat{h}}
+\newcommand{\Ihat}{\hat{I}}
+\newcommand{\ihat}{\hat{i}}
+\newcommand{\Jhat}{\hat{J}}
+\newcommand{\jhat}{\hat{j}}
+\newcommand{\Khat}{\hat{K}}
+\newcommand{\khat}{\hat{k}}
+\newcommand{\Lhat}{\hat{L}}
+\newcommand{\lhat}{\hat{l}}
+\newcommand{\Mhat}{\hat{M}}
+\newcommand{\mhat}{\hat{m}}
+\newcommand{\Nhat}{\hat{N}}
+\newcommand{\nhat}{\hat{n}}
+\newcommand{\Ohat}{\hat{O}}
+\newcommand{\ohat}{\hat{o}}
+\newcommand{\Phat}{\hat{P}}
+\newcommand{\phat}{\hat{p}}
+\newcommand{\Qhat}{\hat{Q}}
+\newcommand{\qhat}{\hat{q}}
+\newcommand{\Rhat}{\hat{R}}
+\newcommand{\rhat}{\hat{r}}
+\newcommand{\Shat}{\hat{S}}
+\newcommand{\shat}{\hat{s}}
+\newcommand{\That}{\hat{T}}
+\newcommand{\that}{\hat{t}}
+\newcommand{\Uhat}{\hat{U}}
+\newcommand{\uhat}{\hat{u}}
+\newcommand{\Vhat}{\hat{V}}
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\What}{\hat{W}}
+\newcommand{\what}{\hat{w}}
+\newcommand{\Xhat}{\hat{X}}
+\newcommand{\xhat}{\hat{x}}
+\newcommand{\Yhat}{\hat{Y}}
+\newcommand{\yhat}{\hat{y}}
+\newcommand{\Zhat}{\hat{Z}}
+\newcommand{\zhat}{\hat{z}}

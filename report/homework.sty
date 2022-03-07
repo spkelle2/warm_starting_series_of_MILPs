@@ -1,0 +1,29 @@
+%**********
+% Packages
+%**********
+\RequirePackage{fullpage,graphicx}
+
+%********
+% Fields
+%********
+\def\myname  #1{\gdef\@myname  {#1}}\def\@myname  {(name)}
+\def\course  #1{\gdef\@course  {#1}}\def\@course  {(course)}
+\def\semester#1{\gdef\@semester{#1}}\def\@semester{(semester)}
+\def\hwnumber#1{\gdef\@hwnumber{#1}}\def\@hwnumber{(number)}
+\def\hwdate  #1{\gdef\@hwdate  {#1}}\def\@hwdate  {(due date)}
+
+%*****
+% Ifs
+%*****
+\newif\ifanswers
+\answersfalse
+
+%********
+% Header
+%********
+\def\header{
+  \bcenter
+    \@course, \@semester \\
+    \ifanswers \textbf{SOLUTIONS}, \else \@myname, \fi Homework \@hwnumber, \@hwdate
+  \ecenter
+}
