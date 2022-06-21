@@ -1,3 +1,7 @@
+.idea/
+.DS_Store
+*.png
+
 # latex
 *.aux
 *.bbl
