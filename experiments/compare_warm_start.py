@@ -17,9 +17,11 @@ def main(cut_offs, in_fldr, out_file='warm_start_comparison.csv', mip_gap=.01,
     for i, file in enumerate(os.listdir(in_fldr)):
         print(f'\nrunning test {i}')
         # turn off for pycharm version
-        if i < 8:
+        if i > 0:
             continue
         for cut_off in cut_offs:
+            if cut_off != 16:
+                continue
             subprocess.call(['python', 'iterate.py', str(i), file, in_fldr, str(mip_gap),
                              str(cut_off), out_file, str(gomory_cuts)])
 

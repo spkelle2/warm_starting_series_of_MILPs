@@ -10,7 +10,8 @@ import time
 from simple_mip_solver import BranchAndBound, PseudoCostBranchNode,\
     DisjunctiveCutBoundPseudoCostBranchNode as DCBPCBNode
 from simple_mip_solver.utils.cut_generating_lp import CutGeneratingLP
-from simple_mip_solver.utils.floating_point import numerically_safe_cut
+from simple_mip_solver.algorithms.branch_and_bound import ProfiledBranchAndBoundWarm, \
+    ProfiledBranchAndBoundCold
 
 
 def run_one_test(i, file, in_fldr, mip_gap, cut_off, out_file, gomory_cuts):
@@ -32,20 +33,22 @@ def run_one_test(i, file, in_fldr, mip_gap, cut_off, out_file, gomory_cuts):
     pth = os.path.join(in_fldr, file)
     model = MILPInstance(file_name=pth)
     # cold started branch and bound
-    cold_bb = BranchAndBound(model, PseudoCostBranchNode, pseudo_costs={},
-                             mip_gap=mip_gap, gomory_cuts=gomory_cuts,
-                             max_run_time=max_run_time)
+    cold_bb = ProfiledBranchAndBoundCold(
+        model, PseudoCostBranchNode, pseudo_costs={}, mip_gap=mip_gap,
+        gomory_cuts=gomory_cuts, max_run_time=max_run_time
+    )
 
     # solve cold start branch and bound to the current cut off
     cold_bb.node_limit = cut_off
     cold_bb.solve()
+    os.rename("post_cutoff_solve_cold.prof", "pre_cutoff_solve_cold.prof")
 
     # generate cglp for warm started instances
-    start = time.process_time()
     cglp = CutGeneratingLP(bb=cold_bb, root_id=0)
-    cglp_init_time = time.process_time() - start
 
     for cglp_constraints, cglp_bounds in itertools.product(['cumulative', 'fixed'], ['cumulative', 'fixed']):
+        if cglp_constraints != 'cumulative' or cglp_bounds != 'cumulative':
+            continue
         # set the key (k) so as we add more pks the code stays readable
         k = (cut_off, cglp_constraints, cglp_bounds)
         print(k)
@@ -66,7 +69,9 @@ def run_one_test(i, file, in_fldr, mip_gap, cut_off, out_file, gomory_cuts):
 
         # get data to compare starts and progress after <c> node evaluations
         # for both warm and cold starts
-        warm_bb[k] = BranchAndBound(
+        # don't put down the cglp init time in the first node so it doesn't get
+        # stuck in the kwargs dict
+        warm_bb[k] = ProfiledBranchAndBoundWarm(
             warm_model, DCBPCBNode, node_limit=cut_off, pseudo_costs={},
             mip_gap=mip_gap, gomory_cuts=False, cglp=cglp,
             cglp_cumulative_constraints=cglp_constraints == 'cumulative',
@@ -75,6 +80,7 @@ def run_one_test(i, file, in_fldr, mip_gap, cut_off, out_file, gomory_cuts):
             force_create_cglp=True, max_run_time=max_run_time
         )
         warm_bb[k].solve()
+        os.rename("post_cutoff_solve_warm.prof", "pre_cutoff_solve_warm.prof")
         # get data on warm start up to cut off - primal doesn't always exist at this point
         data[k] = {
             'variables': cold_bb.root_node.lp.nVariables,
@@ -85,8 +91,7 @@ def run_one_test(i, file, in_fldr, mip_gap, cut_off, out_file, gomory_cuts):
             'warm initial dual bound': warm_bb[k].root_node.objective_value,
             'cold cut off dual bound': cold_bb.dual_bound,
             'warm cut off dual bound': warm_bb[k].dual_bound,
-            'cut off time': cold_bb.solve_time,
-            'cglp init time': cglp_init_time
+            'cut off time': cold_bb.solve_time
         }
 
         # get data on warm start termination
@@ -95,7 +100,7 @@ def run_one_test(i, file, in_fldr, mip_gap, cut_off, out_file, gomory_cuts):
         data[k]['warm evaluated nodes'] = warm_bb[k].evaluated_nodes
         data[k]['warm solve time'] = warm_bb[k].solve_time
         data[k]['total restart solve time'] = data[k]['cut off time'] + \
-                                              data[k]['cglp init time'] + warm_bb[k].solve_time
+                                              cglp.init_time + warm_bb[k].solve_time
         data[k]['total restart evaluated nodes'] = cold_bb.evaluated_nodes + \
                                                    warm_bb[k].evaluated_nodes
         # dual gap - update all these for that
@@ -118,6 +123,7 @@ def run_one_test(i, file, in_fldr, mip_gap, cut_off, out_file, gomory_cuts):
         data[k]['run cglps'] = sum(n.number_cglp_created for n in
                                    warm_bb[k].tree.get_node_instances(warm_bb[k].tree.nodes))
         data[k]['cut generation time'] = warm_bb[k].cut_generation_time
+        data[k]['cglp init time'] = cglp.init_time + warm_bb[k].cglp_init_time
         data[k]['stopped on time'] = warm_bb[k].status == 'stopped on iterations or time'
 
     # get data on cold start termination
