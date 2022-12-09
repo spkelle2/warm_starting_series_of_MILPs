@@ -9,21 +9,28 @@
 \usepackage{fec,homework}
 
 \begin{document}
-	\title{Warm Starting Series of Mixed-Integer Linear Programs}
-	\author{Sean Kelley $^a$ \\
-		$^a$ Department of Industrial and Systems Engineering, Lehigh University}
-	\date{April 30, 2022}
+	\title{Warm Starting Series of Mixed-Integer Linear Programs with Uniform Coefficient Matrices}
+	\author{Sean Kelley $^a$, Ted Ralphs $ ^a $, Aleksandr Kazachkov $ ^b $ \\
+		$^a$ Department of Industrial and Systems Engineering, Lehigh University \\
+		$^b$ Department of Industrial and Systems Engineering, University of Florida}
+	\date{November 6, 2022}
 	\maketitle
 	
 	\bigskip
 	
 	\begin{abstract}
-		Several well known classes of mixed-integer programs (MIP) rely on solving series of mixed-integer linear programs (MILP) where each instance differs only by objective coefficients or constraint bounds. With this structure, one instance’s primal and dual bounds, valid inequalities, and disjunction generated from its solve can be reused when solving another instance in the series, which is often referred to as “warm-starting”. Many such approaches require processing the terminal nodes of the previous instance when starting the new one. Due to recent advances in cutting planes, it is now possible to efficiently generate valid inequalities that capture the tightened relaxation of a previously solved instance, circumventing the need to process its terminal nodes. We show the result is an improved solution method for sufficiently structured MIPs.
+		Several well known classes of mixed-integer programs (MIPs) rely on solving series of mixed-integer linear programs (MILPs) where each instance differs only by objective coefficients or constraint bounds. With this structure, disjunctive cuts generated while solving one instance may prove to be effective at improving solve performance when parameterized and applied to unsolved instances later in the series. In this work, we will detail how to find and parameterize disjunctive cuts and explore their strength when applied to the instances from which they were created. We then propose future experiments to test the strength of applying disjunctive cuts from one instance to another in sufficiently structured series.
 	\end{abstract}
 	
 	\section{Introduction} \label{s:intro}
 	
 	\subsection{Motivation}	\label{ss:motivation}
+	
+	\subsection{Literature Review}	\label{ss:lit_review}
+	
+	\subsection{Outline} \label{ss:outline}
+	
+	\section{Preliminaries} \label{s:prelims}
 	Mixed-Integer Programming (MIP) is a class of problems in which one minimizes an objective subject to a set of constraints and the restriction that some variables must take on integer values. MIP has a deeply studied theory and has been adopted in many successful industrial applications, such as production scheduling, vehicle routing, and facility location. Much of this theory and many of these applications are focused on the case in which a single Mixed-Integer Linear Programming (MILP) instance, which is a MIP instance with linear constraints and objective, is solved. In recent decades, this theory has been built upon to enrich the space of solvable MIP instances. Some examples include solving decomposable MILP's with many constraints or variables, MILP's with multiple objectives, MIP's with nonlinear objective or constraints (MINLP), and MILP's with "real-time" run time restrictions. With this growth in theory, MIP is more relevant to industry than ever, specifically in the aforementioned applications. 
 	
 	A major bottleneck to implementing applications of more recently developed subclasses of MIP, like those mentioned above, is solving them in a reasonable amount of time. The computational difficultly in the above examples stems from the fact that each relies on solving a series of many MILP instances, where solving a single instance is already an NP-hard problem. This burden can be mitigated by "warm starting" each instance in the series by leveraging information gained from previous solves. Specifically, this could include using previously solved problems in the series to calculate what reasonable starting bounds, valid inequalities, or disjunction might be. This allows branch and cut in subsequent solves to bypass primal heuristics and/or initial exploration of the feasible region.
