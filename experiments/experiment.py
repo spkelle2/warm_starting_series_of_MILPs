@@ -33,7 +33,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     assert os.path.isdir(data_fldr), 'data_fldr should exist'
     assert disjunctive_terms >= 2, 'disjunctive_terms >= 2'
     assert max_cut_generators > 0
-    assert 0 < mip_gap < 1  # allowableGap in CBC
+    assert 0 < mip_gap < 1  # allowableGap in CBC - not hard to solve so not using currently
     assert 0 < min_progress < 1
     assert time_limit > 0
     assert log in range(4), 'log takes integer value between 0 and 3'
@@ -159,7 +159,11 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         'instance': instance_name,
         'disjunctive terms': disjunctive_terms,
         'restart termination mode': restart_termination_mode,
-        'corrupted cuts': corrupted_cuts
+        'corrupted cuts': corrupted_cuts,
+        'time limit': time_limit,
+        'max cut generators': max_cut_generators,
+        'mip gap': mip_gap,
+        'min progress': min_progress
     }
     experiment_df = pd.DataFrame.from_records([experiment_row])
     with open(experiment_data_pth, 'a') as f:
