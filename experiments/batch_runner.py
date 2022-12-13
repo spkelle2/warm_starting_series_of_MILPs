@@ -5,8 +5,8 @@ from typing import List
 
 
 def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[int],
-              time_limit: float = 600, log: int = 3, max_cut_generators: int = 10000,
-              mip_gap: float = 1e-2, min_progress: float = 1e-4, run_pbs: bool = False):
+              time_limit: float = 600, log: int = 0, max_cut_generators: int = 100,
+              mip_gap: float = 1e-2, min_progress: float = 1e-4, run_pbs: bool = True):
 
     assert os.path.exists(instance_fldr), 'instance folder should already exist'
     assert not os.path.exists(data_fldr), 'data folder should not already exist'
@@ -35,4 +35,4 @@ if __name__ == '__main__':
     wkdir = os.path.dirname(os.path.realpath(__file__))
     run_batch(instance_fldr=os.path.join(wkdir, 'instances/tiny'),
               data_fldr=os.path.join(wkdir, 'data/tiny'),
-              disjunctive_term_list=[4, 8, 16, 32], log=0, run_pbs=True)
+              disjunctive_term_list=[4, 8, 16, 32])
