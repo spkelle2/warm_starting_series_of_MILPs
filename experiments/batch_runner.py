@@ -3,8 +3,6 @@ import os
 import subprocess
 from typing import List
 
-from experiment import run_experiment
-
 
 def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[int],
               time_limit: float = 600, log: int = 3, max_cut_generators: int = 10000,
@@ -29,12 +27,12 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
                       f'max_cut_generators=${max_cut_generators},mip_gap=${mip_gap},' \
                       f'min_progress=${min_progress},time_limit=${time_limit},log=${log}'
             subprocess.call(['qsub', '-q', 'batch', '-l', 'ncpus=4,mem=7gb,vmem=7gb,pmem=7gb',
-                             '-v', arg_str, '-e', f'{instance_name}.err',
-                             '-o', f'{instance_name}.out', 'submit.pbs'])
+                             '-v', arg_str, '-e', f'{instance_name}_{disjunctive_terms}.err',
+                             '-o', f'{instance_name}_{disjunctive_terms}.out', 'submit.pbs'])
 
 
 if __name__ == '__main__':
-    wkdir = os.path.join(os.path.dirname(os.path.realpath(__file__)))
+    wkdir = os.path.dirname(os.path.realpath(__file__))
     run_batch(instance_fldr=os.path.join(wkdir, 'instances/tiny'),
               data_fldr=os.path.join(wkdir, 'data/tiny'),
               disjunctive_term_list=[4, 8, 16, 32], log=0, run_pbs=True)

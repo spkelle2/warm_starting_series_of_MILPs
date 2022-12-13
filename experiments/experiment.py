@@ -8,7 +8,7 @@ import time
 from simple_mip_solver.utils.branch_and_bound_tree import BranchAndBoundTree
 from simple_mip_solver.utils.cut_generating_lp import CutGeneratingLP
 
-from disjunctive_cut_generator import DisjunctiveCutGenerator
+from experiments.disjunctive_cut_generator import DisjunctiveCutGenerator
 
 
 def root_gap_closed(root_dual_bound, lp_optimal_objective, mip_optimal_objective):
