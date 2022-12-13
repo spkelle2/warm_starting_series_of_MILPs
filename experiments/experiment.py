@@ -127,7 +127,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
 
     for bnb_mdl, cut_type in keys.items():
         cut_rows = []
-        for idx, root_bound in enumerate(bnb_mdl.rootBound):
+        for idx, root_bound in enumerate(bnb_mdl.rootCutsDualBound):
             cut_row = {
                 'instance': instance_name,
                 'cuts': cut_type,
@@ -147,7 +147,8 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
             'instance': instance_name,
             'disjunctive terms': disjunctive_terms,
             'restart': idx,
-            'root gap closed': root_gap_closed(bnb_mdl.rootBound[-1], lp_objective, original_primal),
+            'root gap closed': root_gap_closed(bnb_mdl.rootCutsDualBound[-1],
+                                               lp_objective, original_primal),
         }
         restart_rows.append(restart_row)
     restart_df = pd.DataFrame.from_records(restart_rows)
