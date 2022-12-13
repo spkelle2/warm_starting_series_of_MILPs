@@ -21,7 +21,6 @@
 *.toc
 
 *.csv
-*.mps
 *.lp
 
 # Byte-compiled / optimized / DLL files
