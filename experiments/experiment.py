@@ -127,7 +127,10 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
 
     for bnb_mdl, cut_type in keys.items():
         cut_rows = []
-        for idx, root_bound in enumerate(bnb_mdl.rootCutsDualBound):
+        root_cuts_dual_bound = bnb_mdl.rootCutsDualBound
+        for idx in range(100):
+            root_bound = root_cuts_dual_bound[idx] if idx < len(root_cuts_dual_bound) \
+                else root_cuts_dual_bound[-1]
             cut_row = {
                 'instance': instance_name,
                 'cuts': cut_type,

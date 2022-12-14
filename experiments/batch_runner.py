@@ -33,6 +33,6 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
 
 if __name__ == '__main__':
     wkdir = os.path.dirname(os.path.realpath(__file__))
-    run_batch(instance_fldr=os.path.join(wkdir, 'instances/tiny'),
-              data_fldr=os.path.join(wkdir, 'data/tiny'),
+    run_batch(instance_fldr=os.path.join(wkdir, 'instances/small'),
+              data_fldr=os.path.join(wkdir, 'data/small'),
               disjunctive_term_list=[4, 8, 16, 32])
