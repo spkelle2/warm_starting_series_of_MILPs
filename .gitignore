@@ -1,3 +1,5 @@
+experiments/instances/small/
+out_files/
 *.prof
 .idea/
 .DS_Store
@@ -20,7 +22,6 @@
 *.snm
 *.toc
 
-*.csv
 *.lp
 
 # Byte-compiled / optimized / DLL files
