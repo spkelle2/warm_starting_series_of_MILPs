@@ -1,0 +1,6 @@
+instance,disjunctive terms,restart termination mode,corrupted cuts,time limit,max cut generators,mip gap,min progress
+flugpl,8,number of disjunctive cut generators,False,60.0,2,0.01,0.0001
+flugpl,16,number of disjunctive cut generators,False,60.0,2,0.01,0.0001
+p0033,8,stall,False,60.0,2,0.01,0.0001
+bm23,8,number of disjunctive cut generators,False,60.0,2,0.01,0.0001
+bm23,16,number of disjunctive cut generators,False,60.0,2,0.01,0.0001
