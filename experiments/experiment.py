@@ -118,46 +118,49 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     final_dual = final_bnb.bestPossibleObjValue
     corrupted_cuts = not (final_dual <= original_primal + .01 and final_primal + .01 >= original_dual)
 
-    # capture root bound improvement for models running default cuts, dcs only, and both
-    keys = {
-        original_bnb: 'default',
-        bnb[len(disjunctive_cut_generators)]: 'disjunctive only',
-        final_bnb: 'default and disjunctive'
-    }
-
-    for bnb_mdl, cut_type in keys.items():
-        cut_rows = []
-        root_cuts_dual_bound = bnb_mdl.rootCutsDualBound
-        for idx in range(100):
-            root_bound = root_cuts_dual_bound[idx] if idx < len(root_cuts_dual_bound) \
-                else root_cuts_dual_bound[-1]
-            cut_row = {
-                'instance': instance_name,
-                'cuts': cut_type,
-                'disjunctive terms': disjunctive_terms,
-                'cut generation iteration': idx + 1,
-                'root gap closed': root_gap_closed(root_bound, lp_objective, original_primal)
-            }
-            cut_rows.append(cut_row)
-        cut_df = pd.DataFrame.from_records(cut_rows)
-        with open(cut_iteration_data_pth, 'a') as f:
-            cut_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
-
-    # record root gap from adding each additional disjunctive cut generator
-    restart_rows = []
-    for idx, bnb_mdl in bnb.items():
-        restart_row = {
-            'instance': instance_name,
-            'disjunctive terms': disjunctive_terms,
-            'restart': idx,
-            'root gap closed': root_gap_closed(bnb_mdl.rootCutsDualBound[-1],
-                                               lp_objective, original_primal),
+    # only record cut and restart info if the disjunctive cuts didn't corrupt the problem
+    if not corrupted_cuts:
+        # capture root bound improvement for models running default cuts, dcs only, and both
+        keys = {
+            original_bnb: 'default',
+            bnb[len(disjunctive_cut_generators)]: 'disjunctive only',
+            final_bnb: 'default and disjunctive'
         }
-        restart_rows.append(restart_row)
-    restart_df = pd.DataFrame.from_records(restart_rows)
-    with open(restart_data_pth, 'a') as f:
-        restart_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
 
+        for bnb_mdl, cut_type in keys.items():
+            cut_rows = []
+            root_cuts_dual_bound = bnb_mdl.rootCutsDualBound
+            for idx in range(100):
+                root_bound = root_cuts_dual_bound[idx] if idx < len(root_cuts_dual_bound) \
+                    else root_cuts_dual_bound[-1]
+                cut_row = {
+                    'instance': instance_name,
+                    'cuts': cut_type,
+                    'disjunctive terms': disjunctive_terms,
+                    'cut generation iteration': idx + 1,
+                    'root gap closed': root_gap_closed(root_bound, lp_objective, original_primal)
+                }
+                cut_rows.append(cut_row)
+            cut_df = pd.DataFrame.from_records(cut_rows)
+            with open(cut_iteration_data_pth, 'a') as f:
+                cut_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
+
+        # record root gap from adding each additional disjunctive cut generator
+        restart_rows = []
+        for idx, bnb_mdl in bnb.items():
+            restart_row = {
+                'instance': instance_name,
+                'disjunctive terms': disjunctive_terms,
+                'restart': idx,
+                'root gap closed': root_gap_closed(bnb_mdl.rootCutsDualBound[-1],
+                                                   lp_objective, original_primal),
+            }
+            restart_rows.append(restart_row)
+        restart_df = pd.DataFrame.from_records(restart_rows)
+        with open(restart_data_pth, 'a') as f:
+            restart_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
+
+    # todo: move this outside of run_experiment so we can distinguish python failures vs timeouts
     # record termination and failure information for debugging
     experiment_row = {
         'instance': instance_name,
