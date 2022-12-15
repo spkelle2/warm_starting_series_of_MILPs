@@ -1,7 +1,11 @@
+experiments/instances/small/
+out_files/
 *.prof
 .idea/
 .DS_Store
 *.png
+*.txt
+*.vrb
 
 # latex
 *.aux
@@ -18,8 +22,6 @@
 *.snm
 *.toc
 
-*.csv
-*.mps
 *.lp
 
 # Byte-compiled / optimized / DLL files

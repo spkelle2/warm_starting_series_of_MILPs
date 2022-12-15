@@ -5,9 +5,9 @@ points = [[0, 0], [0, 2], [12/5, 16/5], [4, 0]]
 new_points = [[0, 0], [0, 3], [14/5, 22/5], [5, 0]]
 rays = []
 c = [1, 4]
-opt = [12/5, 16/5]
-loc = (opt[0]+0.1, opt[1]+0.1)
-obj_val = 76/5
+opt = [14/5, 22/5]
+loc = (opt[0]-0.2, opt[1]+0.2)
+obj_val = 102/5
 
 op = Polyhedron2D(points = points, rays = rays)
 p = Polyhedron2D(points = new_points, rays = rays)
@@ -27,9 +27,9 @@ points = [[0, 0], [0, 2], [2, 3], [2, 0]]
 new_points = [[0, 0], [0, 3], [2, 4], [2, 0]]
 rays = []
 c = [1, 4]
-opt = [2, 3]
+opt = [2, 4]
 loc = (opt[0]+0.1, opt[1]+0.1)
-obj_val = 14
+obj_val = 18
 
 op = Polyhedron2D(points = points, rays = rays)
 p = Polyhedron2D(points = new_points, rays = rays)
@@ -51,9 +51,9 @@ new_points = [[3, 0], [3, 4], [5, 0]]
 points = [[3, 0], [3, 2], [4, 0]]
 rays = []
 c = [1, 4]
-opt = [3, 2]
+opt = [3, 4]
 loc = (opt[0]+0.1, opt[1]+0.1)
-obj_val = 11
+obj_val = 19
 
 op = Polyhedron2D(points = points, rays = rays)
 p = Polyhedron2D(points = new_points, rays = rays)

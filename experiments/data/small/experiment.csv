@@ -1,0 +1,86 @@
+instance,disjunctive terms,restart termination mode,corrupted cuts,time limit,max cut generators,mip gap,min progress
+dell,4,optimality,False,600.0,100,0.01,0.0001
+dell,16,optimality,False,600.0,100,0.01,0.0001
+dell,8,optimality,False,600.0,100,0.01,0.0001
+dell,32,optimality,False,600.0,100,0.01,0.0001
+supportcase16,8,optimality,False,600.0,100,0.01,0.0001
+supportcase16,16,optimality,False,600.0,100,0.01,0.0001
+supportcase16,32,optimality,False,600.0,100,0.01,0.0001
+mik-250-20-75-3,4,time limit,False,600.0,100,0.01,0.0001
+23588,4,time limit,False,600.0,100,0.01,0.0001
+dcmulti,8,time limit,True,600.0,100,0.01,0.0001
+mik-250-20-75-3,8,time limit,False,600.0,100,0.01,0.0001
+mas76,32,time limit,True,600.0,100,0.01,0.0001
+gr4x6,16,optimality,False,600.0,100,0.01,0.0001
+gr4x6,32,optimality,False,600.0,100,0.01,0.0001
+gr4x6,8,optimality,False,600.0,100,0.01,0.0001
+gr4x6,4,time limit,True,600.0,100,0.01,0.0001
+flugpl,4,stall,False,600.0,100,0.01,0.0001
+flugpl,16,stall,True,600.0,100,0.01,0.0001
+flugpl,8,stall,False,600.0,100,0.01,0.0001
+pk1,16,stall,False,600.0,100,0.01,0.0001
+pk1,8,stall,False,600.0,100,0.01,0.0001
+pk1,4,stall,False,600.0,100,0.01,0.0001
+pk1,32,stall,False,600.0,100,0.01,0.0001
+mik-250-20-75-1,4,time limit,False,600.0,100,0.01,0.0001
+p0201,4,stall,False,600.0,100,0.01,0.0001
+p0201,16,optimality,False,600.0,100,0.01,0.0001
+p0201,32,optimality,False,600.0,100,0.01,0.0001
+p0201,8,stall,False,600.0,100,0.01,0.0001
+mik-250-20-75-1,8,time limit,False,600.0,100,0.01,0.0001
+mik-250-20-75-5,4,time limit,False,600.0,100,0.01,0.0001
+neos-3611689-kaihu,4,time limit,True,600.0,100,0.01,0.0001
+neos-3611689-kaihu,8,time limit,True,600.0,100,0.01,0.0001
+f2gap401600,4,optimality,False,600.0,100,0.01,0.0001
+f2gap401600,8,optimality,False,600.0,100,0.01,0.0001
+f2gap401600,16,optimality,False,600.0,100,0.01,0.0001
+f2gap401600,32,optimality,False,600.0,100,0.01,0.0001
+mik-250-20-75-5,8,time limit,False,600.0,100,0.01,0.0001
+enlight8,8,stall,False,600.0,100,0.01,0.0001
+enlight8,16,stall,False,600.0,100,0.01,0.0001
+enlight8,4,stall,False,600.0,100,0.01,0.0001
+enlight8,32,stall,False,600.0,100,0.01,0.0001
+neos-3611447-jijia,4,time limit,False,600.0,100,0.01,0.0001
+neos-3611447-jijia,8,time limit,False,600.0,100,0.01,0.0001
+misc07,4,stall,False,600.0,100,0.01,0.0001
+supportcase14,4,stall,False,600.0,100,0.01,0.0001
+supportcase14,8,stall,False,600.0,100,0.01,0.0001
+supportcase14,32,optimality,False,600.0,100,0.01,0.0001
+supportcase14,16,stall,False,600.0,100,0.01,0.0001
+gt2,8,time limit,False,600.0,100,0.01,0.0001
+gt2,32,time limit,False,600.0,100,0.01,0.0001
+gt2,16,time limit,False,600.0,100,0.01,0.0001
+ran13x13,4,time limit,False,600.0,100,0.01,0.0001
+gt2,4,time limit,False,600.0,100,0.01,0.0001
+gen,4,stall,False,600.0,100,0.01,0.0001
+gen,8,stall,False,600.0,100,0.01,0.0001
+blend2,8,time limit,True,600.0,100,0.01,0.0001
+markshare_4_0,8,stall,False,600.0,100,0.01,0.0001
+gen,16,stall,False,600.0,100,0.01,0.0001
+markshare_4_0,16,stall,False,600.0,100,0.01,0.0001
+markshare_4_0,4,stall,False,600.0,100,0.01,0.0001
+markshare_4_0,32,stall,False,600.0,100,0.01,0.0001
+mik-250-20-75-2,4,stall,False,600.0,100,0.01,0.0001
+neos-1425699,4,stall,True,600.0,100,0.01,0.0001
+neos-1425699,8,stall,True,600.0,100,0.01,0.0001
+mik-250-20-75-2,8,time limit,False,600.0,100,0.01,0.0001
+22433,8,optimality,False,600.0,100,0.01,0.0001
+22433,16,optimality,False,600.0,100,0.01,0.0001
+22433,32,optimality,False,600.0,100,0.01,0.0001
+neos-2626858-aoos,4,optimality,False,600.0,100,0.01,0.0001
+bppc8-02,8,stall,False,600.0,100,0.01,0.0001
+neos-5192052-neckar,4,optimality,False,600.0,100,0.01,0.0001
+neos-5192052-neckar,8,optimality,False,600.0,100,0.01,0.0001
+neos-5192052-neckar,16,optimality,False,600.0,100,0.01,0.0001
+neos-5192052-neckar,32,optimality,False,600.0,100,0.01,0.0001
+bppc8-02,4,stall,False,600.0,100,0.01,0.0001
+neos-2626858-aoos,8,optimality,False,600.0,100,0.01,0.0001
+neos-2626858-aoos,16,optimality,False,600.0,100,0.01,0.0001
+neos-2626858-aoos,32,optimality,False,600.0,100,0.01,0.0001
+beavma,8,time limit,True,600.0,100,0.01,0.0001
+bppc8-02,32,stall,False,600.0,100,0.01,0.0001
+nexp-50-20-1-1,8,time limit,False,600.0,100,0.01,0.0001
+neos-1425699,16,time limit,True,600.0,100,0.01,0.0001
+22433,4,time limit,True,600.0,100,0.01,0.0001
+mik-250-20-75-4,4,time limit,False,600.0,100,0.01,0.0001
+mik-250-20-75-4,8,time limit,False,600.0,100,0.01,0.0001
