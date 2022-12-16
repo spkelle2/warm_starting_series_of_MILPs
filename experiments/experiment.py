@@ -11,6 +11,31 @@ from simple_mip_solver.utils.cut_generating_lp import CutGeneratingLP
 from experiments.disjunctive_cut_generator import DisjunctiveCutGenerator
 
 
+def main():
+
+    instance_pth, data_fldr, disjunctive_terms = sys.argv[1:4]
+
+    try:
+        termination_mode = run_experiment(*sys.argv[1:])
+    except Exception as e:
+        termination_mode = 'python failure'
+
+    # record termination information for debugging
+    # if this code isn't run, we either hit wall time or CLP tripped over itself
+    termination_row = {
+        'instance': get_instance_name(instance_pth),
+        'disjunctive terms': disjunctive_terms,
+        'termination mode': termination_mode,
+    }
+    termination_df = pd.DataFrame.from_records([termination_row])
+    with open(os.path.join(data_fldr, 'termination.csv'), 'a') as f:
+        termination_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
+
+
+def get_instance_name(instance_pth):
+    return instance_pth.split('/')[-1].split('.')[0]
+
+
 def root_gap_closed(root_dual_bound, lp_optimal_objective, mip_optimal_objective):
     return abs(root_dual_bound - lp_optimal_objective) / \
            abs(mip_optimal_objective - lp_optimal_objective)
@@ -33,19 +58,18 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     assert os.path.isdir(data_fldr), 'data_fldr should exist'
     assert disjunctive_terms >= 2, 'disjunctive_terms >= 2'
     assert max_cut_generators > 0
-    assert 0 < mip_gap < 1  # allowableGap in CBC - not hard to solve so not using currently
+    assert 0 < mip_gap < 1
     assert 0 < min_progress < 1
     assert time_limit > 0
     assert log in range(4), 'log takes integer value between 0 and 3'
 
     # get values we'll use later
-    instance_name = instance_pth.split('/')[-1].split('.')[0]
+    instance_name = get_instance_name(instance_pth)
     cut_iteration_data_pth = os.path.join(data_fldr, 'cut_iteration.csv')
     restart_data_pth = os.path.join(data_fldr, 'restart.csv')
-    experiment_data_pth = os.path.join(data_fldr, 'experiment.csv')
     disjunctive_cut_generators = []
     prev_dual_bound = -float('inf')
-    restart_termination_mode = None
+    termination_mode = None
     restart_idx = 0
     bnb = {}
     tree = {}
@@ -54,12 +78,23 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     lp.primal()
     lp_objective = lp.objectiveValue
 
+    # determine optimization sense
+    first_bnb = CyCbcModel(lp)
+    first_bnb.solve(arguments=["-maxSolutions", "1"])
+    minimize = first_bnb.bestPossibleObjValue <= first_bnb.objectiveValue
+
+    # get values for determining validity and gap closure
+    solved_bnb = CyCbcModel(lp)
+    solved_bnb.solve(arguments=["-ratioGap", f"{mip_gap}", "-seconds", f"{time_limit}"])
+    if solved_bnb.status == 'stopped on time':
+        return 'default time limit'
+    mip_objective = solved_bnb.objectiveValue
+
     # get data on default cuts
     original_bnb = CyCbcModel(lp)
     original_bnb.persistNodes = True
-    original_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off", "-log", f"{log}"])
-    original_primal = original_bnb.objectiveValue
-    original_dual = original_bnb.bestPossibleObjValue
+    original_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off",
+                                  "-log", f"{log}", "-maxNodes", "1"])
     start_time = time.time()
 
     # get data on only disjunctive cuts
@@ -74,26 +109,27 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
             bnb[restart_idx].addPythonCutGenerator(cut_generator, howOften=-99,
                                                    name=f"PyDisjunctive_{j}".encode('utf-8'))
         bnb[restart_idx].solve(arguments=["-preprocess", "off", "-presolve", "off", "-maxNodes",
-                                          f"{disjunctive_terms - 2}", "-log", f"{log}", "-cuts", "off"])
+                                          f"{disjunctive_terms - 2}", "-log", f"{log}", "-cuts", "off",
+                                          "-ratioGap", f"{mip_gap}", "-seconds", f"{time_limit}"])
         tree[restart_idx] = BranchAndBoundTree(bnb=bnb[restart_idx], root_lp=lp)
 
         # check termination conditions
-        if bnb[restart_idx].objectiveValue <= original_primal:
-            restart_termination_mode = 'optimality'
-            print(f'terminating on {restart_termination_mode}')
+        if bnb[restart_idx].status in ['solution', 'stopped on gap']:
+            termination_mode = 'restart optimality'
+            print(f'terminating on {termination_mode}')
             break
         if abs(bnb[restart_idx].bestPossibleObjValue - prev_dual_bound)/ \
                 max(abs(bnb[restart_idx].bestPossibleObjValue), 1e-4) < min_progress:
-            restart_termination_mode = 'stall'
-            print(f'terminating on {restart_termination_mode}')
+            termination_mode = 'restart stall'
+            print(f'terminating on {termination_mode}')
             break
         if time.time() - start_time > time_limit:
-            restart_termination_mode = 'time limit'
-            print(f'terminating on {restart_termination_mode}')
+            termination_mode = 'restart time limit'
+            print(f'terminating on {termination_mode}')
             break
         if len(disjunctive_cut_generators) >= max_cut_generators:
-            restart_termination_mode = 'number of disjunctive cut generators'
-            print(f'terminating on {restart_termination_mode}')
+            termination_mode = 'max number restarts'
+            print(f'terminating on {termination_mode}')
             break
 
         # Set attributes for next iteration
@@ -103,24 +139,23 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         restart_idx += 1
 
     # get data on both default and disjunctive cuts
+    termination_mode = termination_mode
     final_bnb = CyCbcModel(lp)
     final_bnb.persistNodes = True
     for restart_idx, cut_generator in enumerate(disjunctive_cut_generators):
         # add each disjunctive cut generator at the root node only
         final_bnb.addPythonCutGenerator(cut_generator, howOften=-99,
                                            name=f"PyDisjunctive_{restart_idx}".encode('utf-8'))
-    # solve to optimality to ensure we didn't corrupt the problem
-    final_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off", "-log", f"{log}"])
-    final_tree = BranchAndBoundTree(bnb=final_bnb, root_lp=lp)
+    final_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off", "-log",
+                               f"{log}", "-maxNodes", "1"])
 
-    # check to make sure we didn't mess things up by changing the optimal solution
-    final_primal = final_bnb.objectiveValue
-    final_dual = final_bnb.bestPossibleObjValue
-    corrupted_cuts = not (final_dual <= original_primal + .01 and final_primal + .01 >= original_dual)
+    # check if we cut off optimal solution (i.e. majorly messed up)
+    if (minimize and final_bnb.bestPossibleObjValue > mip_objective + .01) or \
+            (not minimize and final_bnb.bestPossibleObjValue < mip_objective - .01):
+        termination_mode = 'corrupted cuts'
 
-    # only record cut and restart info if the disjunctive cuts didn't corrupt the problem
-    if not corrupted_cuts:
-        # capture root bound improvement for models running default cuts, dcs only, and both
+    # capture root bound improvement for models running default cuts, disjunctive cuts only, and both
+    else:
         keys = {
             original_bnb: 'default',
             bnb[len(disjunctive_cut_generators)]: 'disjunctive only',
@@ -138,7 +173,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
                     'cuts': cut_type,
                     'disjunctive terms': disjunctive_terms,
                     'cut generation iteration': idx + 1,
-                    'root gap closed': root_gap_closed(root_bound, lp_objective, original_primal)
+                    'root gap closed': root_gap_closed(root_bound, lp_objective, mip_objective)
                 }
                 cut_rows.append(cut_row)
             cut_df = pd.DataFrame.from_records(cut_rows)
@@ -153,29 +188,15 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
                 'disjunctive terms': disjunctive_terms,
                 'restart': idx,
                 'root gap closed': root_gap_closed(bnb_mdl.rootCutsDualBound[-1],
-                                                   lp_objective, original_primal),
+                                                   lp_objective, mip_objective),
             }
             restart_rows.append(restart_row)
         restart_df = pd.DataFrame.from_records(restart_rows)
         with open(restart_data_pth, 'a') as f:
             restart_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
 
-    # todo: move this outside of run_experiment so we can distinguish python failures vs timeouts
-    # record termination and failure information for debugging
-    experiment_row = {
-        'instance': instance_name,
-        'disjunctive terms': disjunctive_terms,
-        'restart termination mode': restart_termination_mode,
-        'corrupted cuts': corrupted_cuts,
-        'time limit': time_limit,
-        'max cut generators': max_cut_generators,
-        'mip gap': mip_gap,
-        'min progress': min_progress
-    }
-    experiment_df = pd.DataFrame.from_records([experiment_row])
-    with open(experiment_data_pth, 'a') as f:
-        experiment_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
+    return termination_mode
 
 
 if __name__ == '__main__':
-    run_experiment(*sys.argv[1:])
+    main()
