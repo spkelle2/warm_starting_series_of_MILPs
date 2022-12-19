@@ -1,3 +1,6 @@
+core
+*.err
+*.out
 out_files/
 *.prof
 .idea/
