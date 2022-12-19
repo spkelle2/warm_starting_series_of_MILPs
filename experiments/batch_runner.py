@@ -33,16 +33,10 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
     for i, instance in enumerate(os.listdir(instance_fldr)):
         instance_name = get_instance_name(instance)
         instance_pth = os.path.join(instance_fldr, instance)
-        lp = CyClpSimplex()
-        lp.extractCyLPModel(instance_pth)
 
         # record instance information
         instance_row = {
             'instance': instance_name,
-            'constraints': lp.nConstraints,
-            'variables': lp.nVariables,
-            'integer': sum(lp.integerInformation),
-            'nonzero': lp.coefMatrix.nnz
         }
         experiment_df = pd.DataFrame.from_records([instance_row])
         with open(os.path.join(data_fldr, 'instance.csv'), 'a') as f:
@@ -69,6 +63,6 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
 
 if __name__ == '__main__':
     wkdir = os.path.dirname(os.path.realpath(__file__))
-    run_batch(instance_fldr=os.path.join(wkdir, 'instances/small_unrun'),
-              data_fldr=os.path.join(wkdir, 'data/small_unrun'),
-              disjunctive_term_list=[8], log=3)
+    run_batch(instance_fldr=os.path.join(wkdir, 'instances/small'),
+              data_fldr=os.path.join(wkdir, 'data/small'),
+              disjunctive_term_list=[4, 8, 16, 32], log=3)

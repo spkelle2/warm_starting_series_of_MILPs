@@ -59,16 +59,17 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     assert disjunctive_terms >= 2, 'disjunctive_terms >= 2'
     assert max_cut_generators > 0
     assert 0 < mip_gap < 1
-    assert 0 < min_progress < 1
+    assert 0 < min_progress < 1  # taken out currently
     assert time_limit > 0
     assert log in range(4), 'log takes integer value between 0 and 3'
 
     # get values we'll use later
     instance_name = get_instance_name(instance_pth)
+    metadata_pth = os.path.join(os.path.dirname(os.path.dirname(instance_pth)),
+                                'metadata.csv')
     cut_iteration_data_pth = os.path.join(data_fldr, 'cut_iteration.csv')
     restart_data_pth = os.path.join(data_fldr, 'restart.csv')
     disjunctive_cut_generators = []
-    prev_dual_bound = -float('inf')
     termination_mode = None
     restart_idx = 0
     bnb = {}
@@ -77,24 +78,17 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     mdl = lp.extractCyLPModel(instance_pth)
     lp.primal()
     lp_objective = lp.objectiveValue
-
-    # determine optimization sense
-    first_bnb = CyCbcModel(lp)
-    first_bnb.solve(arguments=["-maxSolutions", "1"])
-    minimize = first_bnb.bestPossibleObjValue <= first_bnb.objectiveValue
-
-    # get values for determining validity and gap closure
-    solved_bnb = CyCbcModel(lp)
-    solved_bnb.solve(arguments=["-ratioGap", f"{mip_gap}", "-seconds", f"{time_limit}"])
-    if solved_bnb.status == 'stopped on time':
-        return 'default time limit'
-    mip_objective = solved_bnb.objectiveValue
+    mip_objective = float(pd.read_csv(metadata_pth, index_col='Instance').loc[instance_name, 'Objective'])
 
     # get data on default cuts
     original_bnb = CyCbcModel(lp)
     original_bnb.persistNodes = True
     original_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off",
-                                  "-log", f"{log}", "-maxNodes", "1"])
+                                  "-log", f"{log}", "-maxNodes", "1",
+                                  "-seconds", f"{time_limit}"])
+    if original_bnb.status == 'stopped on time':
+        return 'original time limit'
+    minimize = original_bnb.sense == 1  # check to see if this matches mps file
     start_time = time.time()
 
     # get data on only disjunctive cuts
@@ -118,11 +112,6 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
             termination_mode = 'restart optimality'
             print(f'terminating on {termination_mode}')
             break
-        if abs(bnb[restart_idx].bestPossibleObjValue - prev_dual_bound)/ \
-                max(abs(bnb[restart_idx].bestPossibleObjValue), 1e-4) < min_progress:
-            termination_mode = 'restart stall'
-            print(f'terminating on {termination_mode}')
-            break
         if time.time() - start_time > time_limit:
             termination_mode = 'restart time limit'
             print(f'terminating on {termination_mode}')
@@ -135,19 +124,17 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         # Set attributes for next iteration
         cglp = CutGeneratingLP(tree=tree[restart_idx], root_id=0)
         disjunctive_cut_generators.append(DisjunctiveCutGenerator(cyLPModel=mdl, cglp=cglp))
-        prev_dual_bound = bnb[restart_idx].bestPossibleObjValue
         restart_idx += 1
 
     # get data on both default and disjunctive cuts
-    termination_mode = termination_mode
     final_bnb = CyCbcModel(lp)
     final_bnb.persistNodes = True
     for restart_idx, cut_generator in enumerate(disjunctive_cut_generators):
         # add each disjunctive cut generator at the root node only
         final_bnb.addPythonCutGenerator(cut_generator, howOften=-99,
-                                           name=f"PyDisjunctive_{restart_idx}".encode('utf-8'))
+                                        name=f"PyDisjunctive_{restart_idx}".encode('utf-8'))
     final_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off", "-log",
-                               f"{log}", "-maxNodes", "1"])
+                               f"{log}", "-maxNodes", "1", "-seconds", f"{time_limit}"])
 
     # check if we cut off optimal solution (i.e. majorly messed up)
     if (minimize and final_bnb.bestPossibleObjValue > mip_objective + .01) or \
