@@ -13,12 +13,14 @@ from experiments.disjunctive_cut_generator import DisjunctiveCutGenerator
 
 def main():
 
+    termination_notes = None
     instance_pth, data_fldr, disjunctive_terms = sys.argv[1:4]
 
     try:
         termination_mode = run_experiment(*sys.argv[1:])
     except Exception as e:
         termination_mode = 'python failure'
+        termination_notes = e.args[0]
 
     # record termination information for debugging
     # if this code isn't run, we either hit wall time or CLP tripped over itself
@@ -26,6 +28,7 @@ def main():
         'instance': get_instance_name(instance_pth),
         'disjunctive terms': disjunctive_terms,
         'termination mode': termination_mode,
+        'termination notes': termination_notes
     }
     termination_df = pd.DataFrame.from_records([termination_row])
     with open(os.path.join(data_fldr, 'termination.csv'), 'a') as f:
@@ -169,15 +172,20 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
 
         # record root gap from adding each additional disjunctive cut generator
         restart_rows = []
+        prev_root_dual_bound = 0
         for idx, bnb_mdl in bnb.items():
+            current_root_dual_bound = bnb_mdl.rootCutsDualBound[-1]
             restart_row = {
                 'instance': instance_name,
                 'disjunctive terms': disjunctive_terms,
                 'restart': idx,
-                'root gap closed': root_gap_closed(bnb_mdl.rootCutsDualBound[-1],
-                                                   lp_objective, mip_objective),
+                'additional root gap closed': (
+                        root_gap_closed(current_root_dual_bound, lp_objective, mip_objective) -
+                        root_gap_closed(prev_root_dual_bound, lp_objective, mip_objective)
+                )
             }
             restart_rows.append(restart_row)
+            prev_root_dual_bound = current_root_dual_bound
         restart_df = pd.DataFrame.from_records(restart_rows)
         with open(restart_data_pth, 'a') as f:
             restart_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
