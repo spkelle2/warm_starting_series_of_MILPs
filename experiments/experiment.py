@@ -9,6 +9,8 @@ from simple_mip_solver.utils.branch_and_bound_tree import BranchAndBoundTree
 from simple_mip_solver.utils.cut_generating_lp import CutGeneratingLP
 
 from experiments.disjunctive_cut_generator import DisjunctiveCutGenerator
+from experiments.solution import get_solutions
+from experiments.utils import get_instance_name, root_gap_closed
 
 
 def main():
@@ -35,20 +37,12 @@ def main():
         termination_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
 
 
-def get_instance_name(instance_pth):
-    return instance_pth.split('/')[-1].split('.')[0]
-
-
-def root_gap_closed(root_dual_bound, lp_optimal_objective, mip_optimal_objective):
-    return abs(root_dual_bound - lp_optimal_objective) / \
-           abs(mip_optimal_objective - lp_optimal_objective)
-
-
 def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
-                   max_cut_generators: int, mip_gap: float, min_progress: float,
-                   time_limit: float, log: int):
+                   instance_solution_fldr: str, max_cut_generators: int,
+                   mip_gap: float, min_progress: float, time_limit: float, log: int):
 
     # convert data types in case passed from command line
+    instance_solution_fldr = None if instance_solution_fldr == 'None' else instance_solution_fldr
     disjunctive_terms = int(disjunctive_terms)
     max_cut_generators = int(max_cut_generators)
     mip_gap = float(mip_gap)
@@ -79,6 +73,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     tree = {}
     lp = CyClpSimplex()
     mdl = lp.extractCyLPModel(instance_pth)
+    solutions = get_solutions(instance_pth, instance_solution_fldr)
     lp.primal()
     lp_objective = lp.objectiveValue
     mip_objective = float(pd.read_csv(metadata_pth, index_col='Instance').loc[instance_name, 'Objective'])
@@ -111,6 +106,10 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         tree[restart_idx] = BranchAndBoundTree(bnb=bnb[restart_idx], root_lp=lp)
 
         # check termination conditions
+        if any(djc.corrupted_cuts for djc in disjunctive_cut_generators):
+            termination_mode = 'corrupted cuts'
+            print(f'terminating on {termination_mode}')
+            break
         if bnb[restart_idx].status in ['solution', 'stopped on gap']:
             termination_mode = 'restart optimality'
             print(f'terminating on {termination_mode}')
@@ -126,7 +125,9 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
 
         # Set attributes for next iteration
         cglp = CutGeneratingLP(tree=tree[restart_idx], root_id=0)
-        disjunctive_cut_generators.append(DisjunctiveCutGenerator(cyLPModel=mdl, cglp=cglp))
+        disjunctive_cut_generators.append(
+            DisjunctiveCutGenerator(mdl=mdl, cglp=cglp, solutions=solutions)
+        )
         restart_idx += 1
 
     # get data on both default and disjunctive cuts
@@ -139,13 +140,8 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     final_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off", "-log",
                                f"{log}", "-maxNodes", "1", "-seconds", f"{time_limit}"])
 
-    # check if we cut off optimal solution (i.e. majorly messed up)
-    if (minimize and final_bnb.bestPossibleObjValue > mip_objective + .01) or \
-            (not minimize and final_bnb.bestPossibleObjValue < mip_objective - .01):
-        termination_mode = 'corrupted cuts'
-
     # capture root bound improvement for models running default cuts, disjunctive cuts only, and both
-    else:
+    if termination_mode != 'corrupted cuts':
         keys = {
             original_bnb: 'default',
             bnb[len(disjunctive_cut_generators)]: 'disjunctive only',

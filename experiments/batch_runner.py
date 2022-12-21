@@ -8,11 +8,13 @@ from experiments.experiment import get_instance_name
 
 
 def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[int],
-              time_limit: float = 3600, log: int = 0, max_cut_generators: int = 100,
-              mip_gap: float = 1e-2, min_progress: float = 1e-4, run_pbs: bool = True):
+              solutions_fldr: str = None, time_limit: float = 2400, log: int = 0,
+              max_cut_generators: int = 100, mip_gap: float = 1e-2,
+              min_progress: float = 1e-4, run_pbs: bool = True):
 
     assert os.path.exists(instance_fldr), 'instance folder should already exist'
     assert not os.path.exists(data_fldr), 'data folder should not already exist'
+    assert solutions_fldr is None or os.path.exists(solutions_fldr), 'solutions folder should already exist'
     os.mkdir(data_fldr)
 
     num_experiments = len(os.listdir(instance_fldr)) * len(disjunctive_term_list)
@@ -33,6 +35,7 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
     for i, instance in enumerate(os.listdir(instance_fldr)):
         instance_name = get_instance_name(instance)
         instance_pth = os.path.join(instance_fldr, instance)
+        instance_solution_fldr = os.path.join(solutions_fldr, instance_name) if solutions_fldr else 'None'
 
         # record instance information
         instance_row = {
@@ -49,11 +52,13 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
             # run individual experiment
             if not run_pbs:
                 subprocess.call(['python', 'experiment.py', instance_pth, data_fldr,
-                                 str(disjunctive_terms), str(max_cut_generators),
-                                 str(mip_gap), str(min_progress), str(time_limit), str(log)])
+                                 str(disjunctive_terms), instance_solution_fldr,
+                                 str(max_cut_generators), str(mip_gap),
+                                 str(min_progress), str(time_limit), str(log)])
             else:
                 arg_str = f'instance_pth={instance_pth},data_fldr={data_fldr},' \
                           f'disjunctive_terms={disjunctive_terms},' \
+                          f'instance_solution_fldr={instance_solution_fldr},' \
                           f'max_cut_generators={max_cut_generators},mip_gap={mip_gap},' \
                           f'min_progress={min_progress},time_limit={time_limit},log={log}'
                 subprocess.call(['qsub', '-V', '-q', 'short', '-l', 'ncpus=4,mem=7gb,vmem=7gb,pmem=7gb',
@@ -65,4 +70,5 @@ if __name__ == '__main__':
     wkdir = os.path.dirname(os.path.realpath(__file__))
     run_batch(instance_fldr=os.path.join(wkdir, 'instances/small'),
               data_fldr=os.path.join(wkdir, 'data/small'),
-              disjunctive_term_list=[4, 8, 16, 32], log=3)
+              disjunctive_term_list=[4, 8, 16, 32],
+              solutions_fldr=os.path.join(wkdir, 'solutions'), log=3)
