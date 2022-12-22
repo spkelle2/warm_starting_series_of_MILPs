@@ -19,7 +19,7 @@ def main():
     instance_pth, data_fldr, disjunctive_terms = sys.argv[1:4]
 
     try:
-        termination_mode = run_experiment(*sys.argv[1:])
+        termination_mode, default_iters, both_iters = run_experiment(*sys.argv[1:])
     except Exception as e:
         termination_mode = 'python failure'
         termination_notes = e.args[0]
@@ -30,7 +30,9 @@ def main():
         'instance': get_instance_name(instance_pth),
         'disjunctive terms': disjunctive_terms,
         'termination mode': termination_mode,
-        'termination notes': termination_notes
+        'termination notes': termination_notes,
+        'default cut generation iterations': default_iters,
+        'default and disjunctive cut generation iterations': both_iters
     }
     termination_df = pd.DataFrame.from_records([termination_row])
     with open(os.path.join(data_fldr, 'termination.csv'), 'a') as f:
@@ -68,7 +70,10 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     restart_data_pth = os.path.join(data_fldr, 'restart.csv')
     disjunctive_cut_generators = []
     termination_mode = None
+    default_iters = None
+    both_iters = None
     restart_idx = 0
+    max_iterations = 50
     bnb = {}
     tree = {}
     lp = CyClpSimplex()
@@ -82,8 +87,8 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     original_bnb = CyCbcModel(lp)
     original_bnb.persistNodes = True
     original_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off",
-                                  "-log", f"{log}", "-maxNodes", "1",
-                                  "-seconds", f"{time_limit}"])
+                                  "-log", f"{log}", "-maxNodes", "0", "passCuts",
+                                  f"-{max_iterations}", "-seconds", f"{time_limit}"])
     if original_bnb.status == 'stopped on time':
         return 'original time limit'
     minimize = original_bnb.sense == 1  # check to see if this matches mps file
@@ -101,8 +106,9 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
             bnb[restart_idx].addPythonCutGenerator(cut_generator, howOften=-99,
                                                    name=f"PyDisjunctive_{j}".encode('utf-8'))
         bnb[restart_idx].solve(arguments=["-preprocess", "off", "-presolve", "off", "-maxNodes",
-                                          f"{disjunctive_terms - 2}", "-log", f"{log}", "-cuts", "off",
-                                          "-ratioGap", f"{mip_gap}", "-seconds", f"{time_limit}"])
+                                          f"{disjunctive_terms - 2}", "passCuts", f"-{max_iterations}",
+                                          "-log", f"{log}", "-cuts", "off", "-ratioGap",
+                                          f"{mip_gap}", "-seconds", f"{time_limit}"])
         tree[restart_idx] = BranchAndBoundTree(bnb=bnb[restart_idx], root_lp=lp)
 
         # check termination conditions
@@ -138,7 +144,8 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         final_bnb.addPythonCutGenerator(cut_generator, howOften=-99,
                                         name=f"PyDisjunctive_{restart_idx}".encode('utf-8'))
     final_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off", "-log",
-                               f"{log}", "-maxNodes", "1", "-seconds", f"{time_limit}"])
+                               f"{log}", "-maxNodes", "0", "passCuts", f"-{max_iterations}",
+                               "-seconds", f"{time_limit}"])
 
     # capture root bound improvement for models running default cuts, disjunctive cuts only, and both
     if termination_mode != 'corrupted cuts':
@@ -147,11 +154,13 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
             bnb[len(disjunctive_cut_generators)]: 'disjunctive only',
             final_bnb: 'default and disjunctive'
         }
+        default_iters = len(original_bnb.rootCutsDualBound)
+        both_iters = len(final_bnb.rootCutsDualBound)
 
         for bnb_mdl, cut_type in keys.items():
             cut_rows = []
             root_cuts_dual_bound = bnb_mdl.rootCutsDualBound
-            for idx in range(100):
+            for idx in range(max_iterations):
                 root_bound = root_cuts_dual_bound[idx] if idx < len(root_cuts_dual_bound) \
                     else root_cuts_dual_bound[-1]
                 cut_row = {
@@ -178,7 +187,8 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
                 'additional root gap closed': (
                         root_gap_closed(current_root_dual_bound, lp_objective, mip_objective) -
                         root_gap_closed(prev_root_dual_bound, lp_objective, mip_objective)
-                )
+                ),
+                'iterations': len(bnb_mdl.rootCutsDualBound)
             }
             restart_rows.append(restart_row)
             prev_root_dual_bound = current_root_dual_bound
@@ -186,7 +196,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         with open(restart_data_pth, 'a') as f:
             restart_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
 
-    return termination_mode
+    return termination_mode, default_iters, both_iters
 
 
 if __name__ == '__main__':

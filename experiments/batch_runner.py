@@ -9,7 +9,7 @@ from experiments.experiment import get_instance_name
 
 def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[int],
               solutions_fldr: str = None, time_limit: float = 2400, log: int = 0,
-              max_cut_generators: int = 100, mip_gap: float = 1e-2,
+              max_cut_generators: int = 20, mip_gap: float = 1e-2,
               min_progress: float = 1e-4, run_pbs: bool = True):
 
     assert os.path.exists(instance_fldr), 'instance folder should already exist'
@@ -61,7 +61,7 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
                           f'instance_solution_fldr={instance_solution_fldr},' \
                           f'max_cut_generators={max_cut_generators},mip_gap={mip_gap},' \
                           f'min_progress={min_progress},time_limit={time_limit},log={log}'
-                subprocess.call(['qsub', '-V', '-q', 'short', '-l', 'ncpus=4,mem=7gb,vmem=7gb,pmem=7gb',
+                subprocess.call(['qsub', '-V', '-q', 'medium', '-l', 'ncpus=4,mem=7gb,vmem=7gb,pmem=7gb',
                                  '-v', arg_str, '-e', f'{instance_name}_{disjunctive_terms}.err',
                                  '-o', f'{instance_name}_{disjunctive_terms}.out', 'submit.pbs'])
 

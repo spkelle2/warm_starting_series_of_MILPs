@@ -35,7 +35,8 @@ class DisjunctiveCutGenerator:
 
         pi, pi0 = self.cglp.solve(x_star=solution)
         if pi is not None and pi0 is not None and np.linalg.norm(pi) > self.min_cglp_norm:
-            safe_pi, safe_pi0 = numerically_safe_cut(pi=pi, pi0=pi0, estimate='over')
+            safe_pi, safe_pi0 = numerically_safe_cut(pi=pi, pi0=pi0, estimate='over',
+                                                     max_term=1e15)
             self.check_cut(safe_pi, safe_pi0)
             cuts = [safe_pi*x >= safe_pi0]
         return cuts

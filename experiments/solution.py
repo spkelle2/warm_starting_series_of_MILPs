@@ -39,17 +39,16 @@ def get_solutions(instance_pth, instance_solution_fldr):
             # for each recorded variable, put its solution value in the corresponding index
             for line_idx, line in enumerate(lines):
                 match = pattern.search(line)
-                if line_idx == 0:
-                    assert not match, f"Should not match line 0"
+                if not match:
+                    assert line_idx == 0, 'only first line should possibly not match'
                 else:
-                    assert match, "we should match all lines except the first"
                     var_name, var_value = match.group(1), float(match.group(2))
                     assert var_name not in seen_vars, "repeated name in solution file"
-                    if line_idx == 1:
-                        assert var_name == '=obj=', "line 1 should be objective"
-                    else:
-                        sol[var_idx[var_name]] = var_value
-                        seen_vars.add(var_name)
+                    if var_name == '=obj=':
+                        continue
+                    sol[var_idx[var_name]] = var_value
+                    seen_vars.add(var_name)
+
         solutions.append(sol)
 
     return solutions
