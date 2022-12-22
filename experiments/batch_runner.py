@@ -61,7 +61,7 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
                           f'instance_solution_fldr={instance_solution_fldr},' \
                           f'max_cut_generators={max_cut_generators},mip_gap={mip_gap},' \
                           f'min_progress={min_progress},time_limit={time_limit},log={log}'
-                size = 'small' if disjunctive_terms < 10 else 'medium'
+                size = 'short' if disjunctive_terms < 10 else 'medium'
                 subprocess.call(['qsub', '-V', '-q', size, '-l', 'ncpus=4,mem=7gb,vmem=7gb,pmem=7gb',
                                  '-v', arg_str, '-e', f'{instance_name}_{disjunctive_terms}.err',
                                  '-o', f'{instance_name}_{disjunctive_terms}.out', 'submit.pbs'])
