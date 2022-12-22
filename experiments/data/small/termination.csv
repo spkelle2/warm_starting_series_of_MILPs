@@ -1,0 +1,235 @@
+instance,disjunctive terms,termination mode,termination notes
+mas76,4,restart optimality,
+mas76,8,restart optimality,
+gen-ip036,16,restart optimality,
+supportcase16,16,restart optimality,
+supportcase16,32,restart optimality,
+control30-3-2-3,8,max number restarts,
+gen-ip036,32,restart optimality,
+ran12x21,4,python failure,line 1 should be objective
+ran12x21,8,python failure,line 1 should be objective
+ran12x21,16,python failure,line 1 should be objective
+ran12x21,32,python failure,line 1 should be objective
+bienst2,4,python failure,Should not match line 0
+bienst2,8,python failure,Should not match line 0
+bienst2,16,python failure,Should not match line 0
+bienst2,32,python failure,Should not match line 0
+gr4x6,32,restart optimality,
+gen-ip036,8,restart time limit,
+pigeon-08,4,max number restarts,
+markshare1,16,restart time limit,
+markshare_5_0,4,python failure,Should not match line 0
+markshare_5_0,8,python failure,Should not match line 0
+markshare_5_0,16,python failure,Should not match line 0
+markshare_5_0,32,python failure,Should not match line 0
+opt1217,4,restart time limit,
+ran14x18-disj-8,4,python failure,Should not match line 0
+ran14x18-disj-8,8,python failure,Should not match line 0
+ran14x18-disj-8,16,python failure,Should not match line 0
+ran14x18-disj-8,32,python failure,Should not match line 0
+markshare1,32,restart time limit,
+mas76,16,restart time limit,
+neos-1430701,8,restart time limit,
+b-ball,8,restart time limit,
+ic97_tension,16,restart time limit,
+dcmulti,8,restart time limit,
+opt1217,8,restart time limit,
+23588,8,restart time limit,
+mas76,32,restart time limit,
+mik-250-20-75-3,8,restart time limit,
+supportcase20,4,python failure,line 1 should be objective
+supportcase20,8,python failure,line 1 should be objective
+supportcase20,16,python failure,line 1 should be objective
+supportcase20,32,python failure,line 1 should be objective
+gen-ip016,4,python failure,Should not match line 0
+gen-ip016,8,python failure,Should not match line 0
+gen-ip016,16,python failure,Should not match line 0
+gen-ip016,32,python failure,Should not match line 0
+neos-1430701,16,restart time limit,
+b-ball,32,restart time limit,
+neos-2652786-brda,16,restart time limit,
+pigeon-08,8,restart time limit,
+neos-1430701,32,restart time limit,
+dcmulti,16,restart time limit,
+neos-2652786-brda,32,restart time limit,
+neos5,4,restart time limit,
+ic97_tension,32,restart time limit,
+opt1217,32,restart time limit,
+opt1217,16,restart time limit,
+pigeon-08,16,restart time limit,
+mik-250-20-75-3,32,restart time limit,
+neos-5140963-mincio,16,restart time limit,
+rout,4,restart time limit,
+enlight_hard,4,max number restarts,
+neos5,8,restart time limit,
+flugpl,4,max number restarts,
+neos5,16,restart time limit,
+neos-5140963-mincio,32,restart time limit,
+gen-ip002,16,restart time limit,
+newdano,4,python failure,Should not match line 0
+newdano,8,python failure,Should not match line 0
+newdano,16,python failure,Should not match line 0
+newdano,32,python failure,Should not match line 0
+pigeon-08,32,restart time limit,
+gen-ip002,32,restart time limit,
+mad,16,restart time limit,
+flugpl,32,max number restarts,
+rout,8,restart time limit,
+mad,32,restart time limit,
+neos-3046601-motu,8,max number restarts,
+pk1,8,restart time limit,
+gsvm2rl3,4,restart time limit,
+rout,16,restart time limit,
+gsvm2rl3,8,restart time limit,
+pigeon-13,4,restart time limit,
+gsvm2rl3,16,restart time limit,
+danoint,4,python failure,line 1 should be objective
+danoint,8,python failure,line 1 should be objective
+danoint,16,python failure,line 1 should be objective
+danoint,32,python failure,line 1 should be objective
+pigeon-10,4,python failure,Should not match line 0
+pigeon-10,8,python failure,Should not match line 0
+pigeon-10,16,python failure,Should not match line 0
+pigeon-10,32,python failure,Should not match line 0
+neos-1442119,4,python failure,Should not match line 0
+neos-1442119,8,python failure,Should not match line 0
+neos-1442119,16,python failure,Should not match line 0
+neos-1442119,32,python failure,Should not match line 0
+f2gap401600,4,python failure,list index out of range
+f2gap401600,8,python failure,list index out of range
+f2gap401600,16,python failure,list index out of range
+f2gap401600,32,python failure,list index out of range
+pigeon-13,8,restart time limit,
+neos-3046601-motu,16,restart time limit,
+neos5,32,restart time limit,
+mik-250-20-75-1,4,restart time limit,
+r50x360,8,restart time limit,
+pk1,16,restart time limit,
+neos-2657525-crna,8,restart time limit,
+neos-3046601-motu,32,restart time limit,
+r50x360,16,restart time limit,
+graphdraw-domain,16,restart time limit,
+mik-250-20-75-5,4,restart time limit,
+graphdraw-domain,32,restart time limit,
+neos-2657525-crna,32,restart time limit,
+pigeon-13,16,restart time limit,
+supportcase26,4,max number restarts,
+noswot,4,python failure,Should not match line 0
+noswot,8,python failure,Should not match line 0
+noswot,16,python failure,Should not match line 0
+noswot,32,python failure,Should not match line 0
+mik-250-20-75-1,8,restart time limit,
+pk1,32,restart time limit,
+assign1-5-8,4,restart time limit,
+neos-2657525-crna,16,restart time limit,
+p0201,16,restart time limit,
+p0201,32,restart time limit,
+mik-250-20-75-1,16,restart time limit,
+prod1,4,restart time limit,
+assign1-5-8,8,restart time limit,
+mik-250-20-75-5,16,restart time limit,
+rlp1,8,restart time limit,
+prod1,8,restart time limit,
+mik-250-20-75-1,32,restart time limit,
+rlp1,16,restart time limit,
+bienst1,4,restart time limit,
+neos17,4,restart time limit,
+bienst1,8,restart time limit,
+assign1-5-8,32,restart time limit,
+prod1,16,restart time limit,
+prod1,32,restart time limit,
+assign1-5-8,16,restart time limit,
+graphdraw-gemcutter,8,restart time limit,
+mas74,4,restart optimality,
+neos-3611447-jijia,32,restart time limit,
+mas74,8,restart optimality,
+k16x240b,4,restart time limit,
+rlp1,32,restart time limit,
+neos-3611447-jijia,16,restart time limit,
+gt2,16,restart time limit,
+ran13x13,16,restart time limit,
+bienst1,16,restart time limit,
+neos18,4,python failure,Should not match line 0
+neos18,8,python failure,Should not match line 0
+neos18,16,python failure,Should not match line 0
+neos18,32,python failure,Should not match line 0
+gt2,32,restart time limit,
+graphdraw-gemcutter,16,restart time limit,
+ran13x13,32,restart time limit,
+graphdraw-gemcutter,32,restart time limit,
+gen-ip021,16,restart time limit,
+gen,16,restart optimality,
+gen,32,restart optimality,
+neos-2624317-amur,8,restart time limit,
+misc07,8,corrupted cuts,
+gen-ip021,32,restart time limit,
+k16x240b,8,restart time limit,
+misc07,32,restart time limit,
+exp-1-500-5-5,16,python failure,"(990, 990)"
+neos17,16,restart time limit,
+timtab1,4,python failure,Should not match line 0
+timtab1,8,python failure,Should not match line 0
+timtab1,16,python failure,Should not match line 0
+timtab1,32,python failure,Should not match line 0
+breastcancer-regularized,4,python failure,Should not match line 0
+breastcancer-regularized,8,python failure,Should not match line 0
+breastcancer-regularized,16,python failure,Should not match line 0
+breastcancer-regularized,32,python failure,Should not match line 0
+neos-2624317-amur,32,restart time limit,
+neos-911970,8,restart time limit,
+k16x240b,16,restart time limit,
+bppc8-09,4,restart time limit,
+neos-2624317-amur,16,restart time limit,
+neos17,8,restart time limit,
+mas74,16,restart time limit,
+k16x240b,32,restart time limit,
+neos17,32,restart time limit,
+neos-3610051-istra,4,restart time limit,
+mas74,32,restart time limit,
+gen-ip054,16,restart time limit,
+22433,16,restart optimality,
+22433,32,restart optimality,
+gen-ip054,32,restart time limit,
+ej,16,max number restarts,
+neos-5192052-neckar,32,restart optimality,
+neos-911970,32,restart time limit,
+neos-1425699,8,max number restarts,
+mik-250-20-75-2,4,restart time limit,
+neos-5192052-neckar,16,restart optimality,
+neos-5192052-neckar,8,restart optimality,
+neos-911970,16,restart time limit,
+bppc8-09,8,restart time limit,
+glass4,4,python failure,line 1 should be objective
+glass4,8,python failure,line 1 should be objective
+glass4,16,python failure,line 1 should be objective
+glass4,32,python failure,line 1 should be objective
+blend2,16,restart time limit,
+exp-1-500-5-5,32,restart time limit,
+neos-3610173-itata,4,restart time limit,
+neos-3610173-itata,8,restart time limit,
+neos-3610040-iskar,4,max number restarts,
+bppc8-02,4,restart time limit,
+mik-250-20-75-2,8,restart time limit,
+timtab1CUTS,8,restart time limit,
+mik-250-20-75-4,4,restart time limit,
+sp150x300d,32,restart time limit,
+beavma,32,restart time limit,
+22433,4,restart time limit,
+22433,8,restart time limit,
+timtab1CUTS,16,restart time limit,
+prod2,4,restart time limit,
+prod2,8,restart time limit,
+bppc8-02,8,restart time limit,
+neos-3610040-iskar,16,restart time limit,
+aflow30a,16,restart time limit,
+aflow30a,8,restart time limit,
+prod2,16,restart time limit,
+neos-3072252-nete,16,restart time limit,
+neos-3072252-nete,32,restart time limit,
+bppc8-02,32,restart time limit,
+aflow30a,32,restart time limit,
+mik-250-20-75-4,8,restart time limit,
+prod2,32,restart time limit,
+bppc8-02,16,restart time limit,
+neos-3610040-iskar,32,restart time limit,
+mik-250-20-75-4,32,restart time limit,
