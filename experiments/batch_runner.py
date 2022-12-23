@@ -1,4 +1,4 @@
-from cylp.cy.CyClpSimplex import CyClpSimplex
+from math import log2
 import os
 import pandas as pd
 import subprocess
@@ -8,7 +8,7 @@ from experiments.experiment import get_instance_name
 
 
 def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[int],
-              solutions_fldr: str = None, time_limit: float = 2400, log: int = 0,
+              solutions_fldr: str = None, time_limit: float = 1200, log: int = 0,
               max_cut_generators: int = 20, mip_gap: float = 1e-2,
               min_progress: float = 1e-4, run_pbs: bool = True):
 
@@ -32,36 +32,39 @@ def run_batch(instance_fldr: str, data_fldr: str, disjunctive_term_list: List[in
     with open(os.path.join(data_fldr, 'experiment.csv'), 'a') as f:
         experiment_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
 
-    for i, instance in enumerate(os.listdir(instance_fldr)):
-        instance_name = get_instance_name(instance)
-        instance_pth = os.path.join(instance_fldr, instance)
-        instance_solution_fldr = os.path.join(solutions_fldr, instance_name) if solutions_fldr else 'None'
+    for j, disjunctive_terms in enumerate(disjunctive_term_list):
+        disjunctive_time_limit = time_limit * (log2(disjunctive_terms) - 1)
 
-        # record instance information
-        instance_row = {
-            'instance': instance_name,
-        }
-        experiment_df = pd.DataFrame.from_records([instance_row])
-        with open(os.path.join(data_fldr, 'instance.csv'), 'a') as f:
-            experiment_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
-
-        for j, disjunctive_terms in enumerate(disjunctive_term_list):
-            experiment_idx = i*len(disjunctive_term_list) + j + 1
+        for i, instance in enumerate(os.listdir(instance_fldr)):
+            experiment_idx = j * len(os.listdir(instance_fldr)) + i + 1
             print(f'\n\nrunning experiment {experiment_idx} of {num_experiments}\n\n')
+
+            instance_name = get_instance_name(instance)
+            instance_pth = os.path.join(instance_fldr, instance)
+            instance_solution_fldr = os.path.join(solutions_fldr, instance_name) if solutions_fldr else 'None'
+
+            # record instance information
+            if j == 0:
+                instance_row = {
+                    'instance': instance_name,
+                }
+                experiment_df = pd.DataFrame.from_records([instance_row])
+                with open(os.path.join(data_fldr, 'instance.csv'), 'a') as f:
+                    experiment_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
 
             # run individual experiment
             if not run_pbs:
                 subprocess.call(['python', 'experiment.py', instance_pth, data_fldr,
                                  str(disjunctive_terms), instance_solution_fldr,
                                  str(max_cut_generators), str(mip_gap),
-                                 str(min_progress), str(time_limit), str(log)])
+                                 str(min_progress), str(disjunctive_time_limit), str(log)])
             else:
                 arg_str = f'instance_pth={instance_pth},data_fldr={data_fldr},' \
                           f'disjunctive_terms={disjunctive_terms},' \
                           f'instance_solution_fldr={instance_solution_fldr},' \
                           f'max_cut_generators={max_cut_generators},mip_gap={mip_gap},' \
-                          f'min_progress={min_progress},time_limit={time_limit},log={log}'
-                size = 'short' if disjunctive_terms < 10 else 'medium'
+                          f'min_progress={min_progress},time_limit={disjunctive_time_limit},log={log}'
+                size = 'medium' if disjunctive_terms < 10 else 'long'
                 subprocess.call(['qsub', '-V', '-q', size, '-l', 'ncpus=4,mem=7gb,vmem=7gb,pmem=7gb',
                                  '-v', arg_str, '-e', f'{instance_name}_{disjunctive_terms}.err',
                                  '-o', f'{instance_name}_{disjunctive_terms}.out', 'submit.pbs'])

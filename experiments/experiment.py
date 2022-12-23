@@ -15,22 +15,25 @@ from experiments.utils import get_instance_name, root_gap_closed
 
 def main():
 
-    termination_notes = None
+    final_termination_mode, restart_termination_notes, default_iters, both_iters = \
+        None, None, None, None
     instance_pth, data_fldr, disjunctive_terms = sys.argv[1:4]
 
     try:
-        termination_mode, default_iters, both_iters = run_experiment(*sys.argv[1:])
+        restart_termination_mode, final_termination_mode, default_iters, both_iters = \
+            run_experiment(*sys.argv[1:])
     except Exception as e:
-        termination_mode = 'python failure'
-        termination_notes = e.args[0]
+        restart_termination_mode = 'python failure'
+        restart_termination_notes = e.args[0]
 
     # record termination information for debugging
     # if this code isn't run, we either hit wall time or CLP tripped over itself
     termination_row = {
         'instance': get_instance_name(instance_pth),
         'disjunctive terms': disjunctive_terms,
-        'termination mode': termination_mode,
-        'termination notes': termination_notes,
+        'restart termination mode': restart_termination_mode,
+        'restart termination notes': restart_termination_notes,
+        'final termination mode': final_termination_mode,
         'default cut generation iterations': default_iters,
         'default and disjunctive cut generation iterations': both_iters
     }
@@ -69,7 +72,8 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     cut_iteration_data_pth = os.path.join(data_fldr, 'cut_iteration.csv')
     restart_data_pth = os.path.join(data_fldr, 'restart.csv')
     disjunctive_cut_generators = []
-    termination_mode = None
+    restart_termination_mode = None
+    final_termination_mode = None
     default_iters = None
     both_iters = None
     restart_idx = 0
@@ -87,7 +91,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
     original_bnb = CyCbcModel(lp)
     original_bnb.persistNodes = True
     original_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off",
-                                  "-log", f"{log}", "-maxNodes", "0", "passCuts",
+                                  "-log", f"{log}", "-maxNodes", "0", "-passCuts",
                                   f"-{max_iterations}", "-seconds", f"{time_limit}"])
     if original_bnb.status == 'stopped on time':
         return 'original time limit'
@@ -106,27 +110,27 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
             bnb[restart_idx].addPythonCutGenerator(cut_generator, howOften=-99,
                                                    name=f"PyDisjunctive_{j}".encode('utf-8'))
         bnb[restart_idx].solve(arguments=["-preprocess", "off", "-presolve", "off", "-maxNodes",
-                                          f"{disjunctive_terms - 2}", "passCuts", f"-{max_iterations}",
+                                          f"{disjunctive_terms - 2}", "-passCuts", f"-{max_iterations}",
                                           "-log", f"{log}", "-cuts", "off", "-ratioGap",
                                           f"{mip_gap}", "-seconds", f"{time_limit}"])
         tree[restart_idx] = BranchAndBoundTree(bnb=bnb[restart_idx], root_lp=lp)
 
         # check termination conditions
         if any(djc.corrupted_cuts for djc in disjunctive_cut_generators):
-            termination_mode = 'corrupted cuts'
-            print(f'terminating on {termination_mode}')
+            restart_termination_mode = 'corrupted cuts'
+            print(f'terminating on {restart_termination_mode}')
             break
         if bnb[restart_idx].status in ['solution', 'stopped on gap']:
-            termination_mode = 'restart optimality'
-            print(f'terminating on {termination_mode}')
+            restart_termination_mode = 'restart optimality'
+            print(f'terminating on {restart_termination_mode}')
             break
         if time.time() - start_time > time_limit:
-            termination_mode = 'restart time limit'
-            print(f'terminating on {termination_mode}')
+            restart_termination_mode = 'restart time limit'
+            print(f'terminating on {restart_termination_mode}')
             break
         if len(disjunctive_cut_generators) >= max_cut_generators:
-            termination_mode = 'max number restarts'
-            print(f'terminating on {termination_mode}')
+            restart_termination_mode = 'max number restarts'
+            print(f'terminating on {restart_termination_mode}')
             break
 
         # Set attributes for next iteration
@@ -144,11 +148,12 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         final_bnb.addPythonCutGenerator(cut_generator, howOften=-99,
                                         name=f"PyDisjunctive_{restart_idx}".encode('utf-8'))
     final_bnb.solve(arguments=["-preprocess", "off", "-presolve", "off", "-log",
-                               f"{log}", "-maxNodes", "0", "passCuts", f"-{max_iterations}",
-                               "-seconds", f"{time_limit}"])
+                               f"{log}", "-maxNodes", "0", "-passCuts", f"-{max_iterations}",
+                               "-seconds", f"{time_limit*2}"])
+    final_termination_mode = final_bnb.status
 
     # capture root bound improvement for models running default cuts, disjunctive cuts only, and both
-    if termination_mode != 'corrupted cuts':
+    if restart_termination_mode != 'corrupted cuts':
         keys = {
             original_bnb: 'default',
             bnb[len(disjunctive_cut_generators)]: 'disjunctive only',
@@ -159,18 +164,24 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
 
         for bnb_mdl, cut_type in keys.items():
             cut_rows = []
+            prev_root_dual_bound = 0
             root_cuts_dual_bound = bnb_mdl.rootCutsDualBound
             for idx in range(max_iterations):
-                root_bound = root_cuts_dual_bound[idx] if idx < len(root_cuts_dual_bound) \
-                    else root_cuts_dual_bound[-1]
+                current_root_dual_bound = root_cuts_dual_bound[idx] if \
+                    idx < len(root_cuts_dual_bound) else root_cuts_dual_bound[-1]
                 cut_row = {
                     'instance': instance_name,
                     'cuts': cut_type,
                     'disjunctive terms': disjunctive_terms,
                     'cut generation iteration': idx + 1,
-                    'root gap closed': root_gap_closed(root_bound, lp_objective, mip_objective)
+                    'root gap closed': root_gap_closed(current_root_dual_bound, lp_objective, mip_objective),
+                    'additional root gap closed': (
+                            root_gap_closed(current_root_dual_bound, lp_objective, mip_objective) -
+                            root_gap_closed(prev_root_dual_bound, lp_objective, mip_objective)
+                    ),
                 }
                 cut_rows.append(cut_row)
+                prev_root_dual_bound = current_root_dual_bound
             cut_df = pd.DataFrame.from_records(cut_rows)
             with open(cut_iteration_data_pth, 'a') as f:
                 cut_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
@@ -184,6 +195,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
                 'instance': instance_name,
                 'disjunctive terms': disjunctive_terms,
                 'restart': idx,
+                'root gap closed': root_gap_closed(current_root_dual_bound, lp_objective, mip_objective),
                 'additional root gap closed': (
                         root_gap_closed(current_root_dual_bound, lp_objective, mip_objective) -
                         root_gap_closed(prev_root_dual_bound, lp_objective, mip_objective)
@@ -196,7 +208,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         with open(restart_data_pth, 'a') as f:
             restart_df.to_csv(f, mode='a', header=f.tell() == 0, index=False)
 
-    return termination_mode, default_iters, both_iters
+    return restart_termination_mode, final_termination_mode, default_iters, both_iters
 
 
 if __name__ == '__main__':
