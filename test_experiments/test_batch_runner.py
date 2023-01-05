@@ -18,7 +18,8 @@ class TestNode(unittest.TestCase):
         shutil.rmtree(self.data_dir, ignore_errors=True)
 
     def tearDown(self) -> None:
-        shutil.rmtree(self.data_dir, ignore_errors=True)
+        # shutil.rmtree(self.data_dir, ignore_errors=True)
+        pass
 
     def test_run_batch(self):
         run_batch(instance_fldr=self.instance_dir, data_fldr=self.data_dir,

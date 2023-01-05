@@ -95,7 +95,8 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
                                   f"-{max_iterations}", "-seconds", f"{time_limit}"])
     if original_bnb.status == 'stopped on time':
         return 'original time limit'
-    minimize = original_bnb.sense == 1  # check to see if this matches mps file
+    original_tree = BranchAndBoundTree(bnb=original_bnb)
+    original_root_lp = original_tree.nodes[0].attr['node'].lp
     start_time = time.time()
 
     # get data on only disjunctive cuts
@@ -103,7 +104,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
         print(f'iteration {len(disjunctive_cut_generators)} of {max_cut_generators}')
 
         # set attributes to use throughout this iteration
-        bnb[restart_idx] = CyCbcModel(lp)
+        bnb[restart_idx] = CyCbcModel(original_root_lp)
         bnb[restart_idx].persistNodes = True
         for j, cut_generator in enumerate(disjunctive_cut_generators):
             # apply disjunctive cuts at root node only
@@ -113,7 +114,7 @@ def run_experiment(instance_pth: str, data_fldr: str, disjunctive_terms: int,
                                           f"{disjunctive_terms - 2}", "-passCuts", f"-{max_iterations}",
                                           "-log", f"{log}", "-cuts", "off", "-ratioGap",
                                           f"{mip_gap}", "-seconds", f"{time_limit}"])
-        tree[restart_idx] = BranchAndBoundTree(bnb=bnb[restart_idx], root_lp=lp)
+        tree[restart_idx] = BranchAndBoundTree(bnb=bnb[restart_idx])
 
         # check termination conditions
         if any(djc.corrupted_cuts for djc in disjunctive_cut_generators):
