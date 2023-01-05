@@ -1,0 +1,352 @@
+instance,disjunctive terms,restart termination mode,restart termination notes,final termination mode,default cut generation iterations,default and disjunctive cut generation iterations
+mas76,4,restart optimality,,solution,20,3
+neos-3046601-motu,4,max number restarts,,stopped on nodes,2,2
+control30-3-2-3,4,max number restarts,,stopped on nodes,14,14
+neos-5140963-mincio,4,max number restarts,,stopped on nodes,10,10
+markshare1,4,max number restarts,,stopped on nodes,10,10
+ran14x18-disj-8,4,python failure,only first line should possibly not match,,,
+supportcase16,4,max number restarts,,stopped on nodes,10,10
+flugpl,4,max number restarts,,stopped on nodes,20,20
+gr4x6,4,max number restarts,,stopped on nodes,5,8
+gen-ip016,4,corrupted cuts,,stopped on nodes,,
+b-ball,4,max number restarts,,stopped on nodes,20,20
+dcmulti,4,max number restarts,,stopped on nodes,12,12
+enlight_hard,4,max number restarts,,stopped on nodes,20,20
+markshare_5_0,4,max number restarts,,stopped on nodes,10,10
+gen-ip036,4,max number restarts,,stopped on nodes,10,10
+enlight8,4,max number restarts,,stopped on nodes,20,20
+ran12x21,4,max number restarts,,stopped on nodes,20,20
+graphdraw-gemcutter,4,max number restarts,,stopped on nodes,10,10
+noswot,4,max number restarts,,stopped on nodes,10,10
+supportcase26,4,max number restarts,,stopped on nodes,20,20
+ran13x13,4,max number restarts,,stopped on nodes,20,20
+p0201,4,max number restarts,,stopped on nodes,20,20
+gen-ip002,4,max number restarts,,stopped on nodes,10,10
+mas74,4,restart optimality,,solution,11,7
+rlp1,4,max number restarts,,stopped on nodes,11,11
+mad,4,max number restarts,,stopped on nodes,10,10
+graphdraw-domain,4,max number restarts,,stopped on nodes,20,20
+pk1,4,max number restarts,,stopped on nodes,10,10
+gen-ip021,4,max number restarts,,stopped on nodes,10,12
+ic97_tension,4,max number restarts,,stopped on nodes,16,16
+k16x240b,4,max number restarts,,stopped on nodes,20,20
+markshare_4_0,4,max number restarts,,stopped on nodes,10,10
+gt2,4,max number restarts,,stopped on nodes,10,10
+gen-ip054,4,max number restarts,,stopped on nodes,10,10
+breastcancer-regularized,4,python failure,could not convert string to float: 'Objective',,,
+exp-1-500-5-5,4,max number restarts,,stopped on nodes,17,20
+neos-3046615-murg,4,max number restarts,,stopped on nodes,12,12
+neos-1430701,4,max number restarts,,stopped on nodes,10,10
+ej,4,max number restarts,,stopped on nodes,12,10
+gen,4,max number restarts,,stopped on nodes,4,4
+sp150x300d,4,max number restarts,,stopped on nodes,20,12
+neos-1425699,4,max number restarts,,stopped on nodes,2,2
+beavma,4,max number restarts,,stopped on nodes,14,17
+neos-5192052-neckar,4,max number restarts,,stopped on nodes,5,5
+r50x360,4,max number restarts,,stopped on nodes,20,20
+neos-2652786-brda,4,corrupted cuts,,stopped on nodes,,
+nexp-50-20-1-1,4,max number restarts,,stopped on nodes,19,19
+blend2,4,corrupted cuts,,stopped on nodes,,
+glass4,4,python failure,lung,,,
+timtab1,4,max number restarts,,stopped on nodes,20,20
+neos-3072252-nete,4,max number restarts,,stopped on nodes,11,11
+neos-3611447-jijia,4,max number restarts,,stopped on nodes,20,20
+gen-ip036,8,restart optimality,,stopped on nodes,10,10
+prod2,4,corrupted cuts,,stopped on nodes,,
+neos-2657525-crna,4,max number restarts,,stopped on nodes,8,10
+control30-3-2-3,8,max number restarts,,stopped on nodes,14,14
+misc07,4,corrupted cuts,,stopped on nodes,,
+neos-3610040-iskar,4,max number restarts,,stopped on nodes,17,17
+mas76,8,restart optimality,,solution,20,7
+neos5,4,restart time limit,,stopped on nodes,20,20
+gsvm2rl3,4,restart time limit,,stopped on nodes,20,20
+22433,4,corrupted cuts,,stopped on nodes,,
+aflow30a,4,max number restarts,,stopped on nodes,20,20
+pigeon-08,4,restart time limit,,stopped on nodes,10,8
+opt1217,4,restart time limit,,stopped on nodes,20,20
+prod1,4,restart time limit,,stopped on nodes,20,20
+supportcase16,8,corrupted cuts,,stopped on nodes,,
+gr4x6,8,max number restarts,,stopped on nodes,5,5
+assign1-5-8,4,restart time limit,,stopped on nodes,11,12
+mik-250-20-75-5,4,restart time limit,,stopped on nodes,20,19
+23588,4,restart time limit,,stopped on nodes,18,10
+ran14x18-disj-8,8,python failure,only first line should possibly not match,,,
+neos-2624317-amur,4,restart time limit,,stopped on nodes,9,10
+b-ball,8,max number restarts,,stopped on nodes,20,20
+neos17,4,restart time limit,,stopped on nodes,10,20
+mik-250-20-75-1,4,restart time limit,,stopped on nodes,19,20
+markshare1,8,max number restarts,,stopped on nodes,10,10
+markshare_5_0,8,max number restarts,,stopped on nodes,10,10
+bppc8-02,4,restart time limit,,stopped on nodes,10,10
+mik-250-20-75-4,4,max number restarts,,stopped on nodes,20,15
+mik-250-20-75-3,4,max number restarts,,stopped on nodes,20,20
+neos-1442119,4,max number restarts,,stopped on nodes,10,10
+timtab1CUTS,4,max number restarts,,stopped on nodes,20,20
+pigeon-10,4,restart time limit,,stopped on nodes,10,10
+flugpl,8,max number restarts,,stopped on nodes,20,20
+rout,4,restart time limit,,stopped on nodes,20,19
+mik-250-20-75-2,4,restart time limit,,stopped on nodes,20,20
+bppc8-09,4,restart time limit,,stopped on nodes,11,11
+gen-ip016,8,max number restarts,,stopped on nodes,10,10
+enlight_hard,8,max number restarts,,stopped on nodes,20,20
+neos-911970,4,restart time limit,,stopped on nodes,20,20
+gen-ip002,8,max number restarts,,stopped on nodes,10,10
+neos-5140963-mincio,8,max number restarts,,stopped on nodes,10,10
+neos-3046601-motu,8,max number restarts,,stopped on nodes,2,2
+neos18,4,restart time limit,,stopped on nodes,10,10
+mad,8,max number restarts,,stopped on nodes,10,10
+newdano,4,restart time limit,,stopped on time,20,8
+bienst2,4,restart time limit,,stopped on time,20,12
+pigeon-13,4,restart time limit,,stopped on time,10,8
+enlight8,8,max number restarts,,stopped on nodes,20,20
+danoint,4,restart time limit,,stopped on time,10,8
+supportcase20,4,restart time limit,,stopped on time,20,10
+bienst1,4,restart time limit,,stopped on time,14,14
+neos-3610051-istra,4,restart time limit,,stopped on time,20,19
+ran12x21,8,max number restarts,,stopped on nodes,20,20
+neos-3610173-itata,4,restart time limit,,stopped on time,20,15
+supportcase26,8,max number restarts,,stopped on nodes,20,20
+dcmulti,8,max number restarts,,stopped on nodes,12,12
+noswot,8,max number restarts,,stopped on nodes,10,10
+ran13x13,8,max number restarts,,stopped on nodes,20,20
+graphdraw-gemcutter,8,max number restarts,,stopped on nodes,10,10
+graphdraw-domain,8,max number restarts,,stopped on nodes,20,20
+mas74,8,restart optimality,,solution,11,12
+pk1,8,restart time limit,,stopped on nodes,10,10
+p0201,8,max number restarts,,stopped on nodes,20,20
+gen-ip021,8,max number restarts,,stopped on nodes,10,15
+pigeon-08,8,restart time limit,,stopped on nodes,10,8
+ic97_tension,8,max number restarts,,stopped on nodes,16,16
+neos5,8,restart time limit,,stopped on nodes,20,20
+markshare_4_0,8,max number restarts,,stopped on nodes,10,10
+exp-1-500-5-5,8,max number restarts,,stopped on nodes,17,20
+neos-2657525-crna,8,restart time limit,,stopped on nodes,8,10
+breastcancer-regularized,8,python failure,could not convert string to float: 'Objective',,,
+gen-ip054,8,max number restarts,,stopped on nodes,10,12
+gsvm2rl3,8,restart time limit,,stopped on nodes,20,20
+opt1217,8,restart time limit,,stopped on nodes,20,12
+rlp1,8,restart time limit,,stopped on nodes,11,12
+ej,8,corrupted cuts,,stopped on nodes,,
+neos-1425699,8,restart optimality,,stopped on nodes,2,5
+sp150x300d,8,max number restarts,,stopped on nodes,20,20
+neos-3046615-murg,8,max number restarts,,stopped on nodes,12,20
+neos-5192052-neckar,8,restart optimality,,stopped on nodes,5,5
+22433,8,corrupted cuts,,stopped on nodes,,
+mik-250-20-75-5,8,corrupted cuts,,stopped on nodes,,
+23588,8,max number restarts,,stopped on nodes,18,10
+neos-1430701,8,restart time limit,,stopped on nodes,10,10
+glass4,8,python failure,lung,,,
+neos-2652786-brda,8,restart time limit,,stopped on nodes,10,10
+prod1,8,restart time limit,,stopped on nodes,20,17
+rout,8,restart time limit,,stopped on nodes,20,20
+gt2,8,restart time limit,,stopped on nodes,10,20
+r50x360,8,restart time limit,,stopped on nodes,20,20
+gen,8,max number restarts,,stopped on nodes,4,4
+control30-3-2-3,16,max number restarts,,stopped on nodes,14,14
+beavma,8,max number restarts,,stopped on nodes,14,15
+k16x240b,8,restart optimality,,solution,20,3
+nexp-50-20-1-1,8,max number restarts,,stopped on nodes,19,12
+mik-250-20-75-3,8,max number restarts,,stopped on time,20,12
+prod2,8,corrupted cuts,,stopped on nodes,,
+supportcase16,16,restart optimality,,stopped on nodes,10,10
+neos-3611447-jijia,8,max number restarts,,stopped on time,20,13
+blend2,8,corrupted cuts,,stopped on nodes,,
+timtab1,8,max number restarts,,stopped on nodes,20,20
+gen-ip036,16,restart optimality,,stopped on nodes,10,10
+gr4x6,16,max number restarts,,stopped on nodes,5,6
+mik-250-20-75-1,8,max number restarts,,stopped on time,19,14
+bienst2,8,restart time limit,,stopped on time,20,5
+mas76,16,restart optimality,,solution,20,2
+supportcase20,8,restart time limit,,stopped on time,20,6
+ran14x18-disj-8,16,python failure,only first line should possibly not match,,,
+neos-3610051-istra,8,max number restarts,,stopped on time,20,4
+assign1-5-8,8,restart time limit,,stopped on nodes,11,20
+neos-3072252-nete,8,max number restarts,,stopped on nodes,11,11
+bppc8-09,8,restart time limit,,stopped on nodes,11,10
+pigeon-13,8,restart time limit,,stopped on time,10,4
+markshare1,16,max number restarts,,stopped on nodes,10,10
+newdano,8,restart time limit,,stopped on time,20,7
+misc07,8,corrupted cuts,,stopped on nodes,,
+pigeon-10,8,restart time limit,,stopped on nodes,10,10
+markshare_5_0,16,max number restarts,,stopped on nodes,10,10
+bienst1,8,restart time limit,,stopped on time,14,5
+danoint,8,restart time limit,,stopped on time,10,4
+bppc8-02,8,restart time limit,,stopped on nodes,10,20
+neos-3610040-iskar,8,max number restarts,,stopped on nodes,17,17
+neos-1442119,8,restart time limit,,stopped on time,10,5
+neos-2624317-amur,8,restart time limit,,stopped on nodes,9,10
+gen-ip016,16,max number restarts,,stopped on nodes,10,10
+mik-250-20-75-2,8,max number restarts,,stopped on time,20,8
+neos-3610173-itata,8,max number restarts,,stopped on time,20,3
+neos-911970,8,restart time limit,,stopped on time,20,12
+aflow30a,8,restart time limit,,stopped on nodes,20,20
+timtab1CUTS,8,restart time limit,,stopped on time,20,13
+neos17,8,restart time limit,,stopped on time,10,16
+b-ball,16,restart time limit,,stopped on nodes,20,20
+gen-ip002,16,restart time limit,,stopped on nodes,10,10
+mik-250-20-75-4,8,restart time limit,,stopped on time,20,10
+neos5,16,restart time limit,,stopped on nodes,20,10
+enlight_hard,16,max number restarts,,stopped on nodes,20,20
+neos18,8,restart time limit,,stopped on time,10,5
+mad,16,max number restarts,,stopped on nodes,10,10
+flugpl,16,max number restarts,,stopped on nodes,20,16
+ic97_tension,16,restart time limit,,stopped on time,16,7
+neos-2652786-brda,16,restart time limit,,stopped on time,10,10
+mik-250-20-75-3,16,restart time limit,,stopped on time,20,4
+neos-1430701,16,restart time limit,,stopped on time,10,8
+opt1217,16,restart time limit,,stopped on time,20,10
+dcmulti,16,corrupted cuts,,stopped on time,,
+neos-5140963-mincio,16,restart time limit,,stopped on nodes,10,18
+pk1,16,restart time limit,,stopped on nodes,10,10
+gsvm2rl3,16,restart time limit,,stopped on nodes,20,20
+23588,16,restart time limit,,stopped on time,18,6
+pigeon-08,16,restart time limit,,stopped on time,10,8
+ran12x21,16,restart time limit,,stopped on time,20,18
+bienst2,16,restart time limit,,stopped on time,20,3
+neos-3046601-motu,16,restart time limit,,stopped on nodes,2,7
+enlight8,16,max number restarts,,stopped on nodes,20,20
+graphdraw-domain,16,restart time limit,,stopped on time,20,7
+r50x360,16,restart time limit,,stopped on time,20,6
+supportcase20,16,restart time limit,,stopped on time,20,2
+supportcase26,16,max number restarts,,stopped on nodes,20,20
+rlp1,16,restart time limit,,stopped on nodes,11,10
+pigeon-13,16,restart time limit,,stopped on time,10,3
+neos-2657525-crna,16,restart time limit,,stopped on time,8,9
+prod1,16,restart time limit,,stopped on nodes,20,20
+noswot,16,max number restarts,,stopped on nodes,10,10
+rout,16,restart time limit,,stopped on time,20,4
+misc07,16,corrupted cuts,,stopped on nodes,,
+mik-250-20-75-1,16,restart time limit,,stopped on time,19,4
+p0201,16,restart time limit,,stopped on nodes,20,20
+mas74,16,restart optimality,,solution,11,4
+gen-ip021,16,max number restarts,,stopped on nodes,10,10
+mik-250-20-75-5,16,restart time limit,,stopped on time,20,6
+graphdraw-gemcutter,16,restart time limit,,stopped on nodes,10,10
+gen,16,restart optimality,,stopped on nodes,4,4
+newdano,16,restart time limit,,stopped on time,20,3
+markshare_4_0,16,corrupted cuts,,stopped on nodes,,
+ran13x13,16,max number restarts,,stopped on nodes,20,20
+assign1-5-8,16,restart time limit,,stopped on time,11,10
+bienst1,16,restart time limit,,stopped on time,14,4
+breastcancer-regularized,16,python failure,could not convert string to float: 'Objective',,,
+neos17,16,restart time limit,,stopped on nodes,10,12
+gen-ip054,16,max number restarts,,stopped on nodes,10,10
+gt2,16,restart time limit,,stopped on nodes,10,10
+exp-1-500-5-5,16,max number restarts,,stopped on nodes,17,14
+ej,16,max number restarts,,problem proven infeasible,12,3
+pigeon-10,16,restart time limit,,stopped on time,10,3
+22433,16,restart optimality,,stopped on nodes,20,20
+neos-1425699,16,restart optimality,,stopped on nodes,2,15
+neos-5192052-neckar,16,restart optimality,,stopped on nodes,5,5
+neos-3611447-jijia,16,restart time limit,,stopped on time,20,6
+neos-1442119,16,restart time limit,,stopped on time,10,4
+nexp-50-20-1-1,16,max number restarts,,stopped on nodes,19,19
+neos-2624317-amur,16,restart time limit,,stopped on time,9,8
+glass4,16,python failure,lung,,,
+sp150x300d,16,max number restarts,,stopped on nodes,20,17
+neos-3610051-istra,16,restart time limit,,stopped on time,20,4
+blend2,16,restart time limit,,stopped on nodes,20,20
+bppc8-02,16,restart time limit,,stopped on nodes,10,19
+control30-3-2-3,32,max number restarts,,stopped on nodes,14,14
+k16x240b,16,restart time limit,,stopped on time,20,10
+beavma,16,max number restarts,,stopped on nodes,14,14
+gen-ip036,32,restart optimality,,stopped on nodes,10,11
+bppc8-09,16,restart time limit,,stopped on time,11,6
+neos-3046615-murg,16,max number restarts,,stopped on time,12,20
+timtab1,16,max number restarts,,stopped on time,20,8
+mik-250-20-75-2,16,restart time limit,,stopped on time,20,4
+neos-3610173-itata,16,restart time limit,,stopped on time,20,3
+supportcase16,32,restart optimality,,stopped on nodes,10,10
+neos-3072252-nete,16,restart time limit,,stopped on nodes,11,11
+neos-3610040-iskar,16,restart time limit,,stopped on time,17,10
+prod2,16,restart time limit,,stopped on nodes,20,20
+gr4x6,32,restart optimality,,stopped on nodes,5,5
+timtab1CUTS,16,restart time limit,,stopped on time,20,4
+markshare1,32,restart time limit,,stopped on nodes,10,10
+aflow30a,16,restart time limit,,stopped on time,20,6
+mas76,32,restart optimality,,solution,20,18
+ran14x18-disj-8,32,python failure,only first line should possibly not match,,,
+markshare_5_0,32,corrupted cuts,,stopped on nodes,,
+b-ball,32,restart time limit,,stopped on nodes,20,19
+neos-5140963-mincio,32,restart time limit,,stopped on nodes,10,12
+neos5,32,restart time limit,,stopped on nodes,20,20
+danoint,16,restart time limit,,stopped on time,10,2
+neos-1430701,32,restart time limit,,stopped on nodes,10,10
+mik-250-20-75-4,16,restart time limit,,stopped on time,20,4
+rout,32,restart time limit,,stopped on nodes,20,20
+opt1217,32,restart time limit,,stopped on time,20,3
+23588,32,restart time limit,,stopped on time,18,3
+pigeon-08,32,restart time limit,,stopped on time,10,4
+flugpl,32,max number restarts,,stopped on nodes,20,20
+gen-ip016,32,restart time limit,,stopped on nodes,10,10
+ran12x21,32,restart time limit,,stopped on time,20,8
+dcmulti,32,restart time limit,,stopped on time,12,3
+mad,32,max number restarts,,stopped on time,10,8
+enlight_hard,32,max number restarts,,stopped on nodes,20,20
+ic97_tension,32,restart time limit,,stopped on time,16,3
+pk1,32,restart time limit,,stopped on nodes,10,10
+bienst2,32,restart time limit,,stopped on time,20,2
+neos-911970,16,restart time limit,,stopped on time,20,1
+neos-3046601-motu,32,restart time limit,,stopped on nodes,2,2
+neos-2652786-brda,32,restart time limit,,stopped on time,10,2
+r50x360,32,restart time limit,,stopped on time,20,3
+graphdraw-domain,32,restart time limit,,stopped on time,20,4
+enlight8,32,max number restarts,,stopped on nodes,20,20
+p0201,32,restart time limit,,stopped on nodes,20,20
+neos-2657525-crna,32,restart time limit,,stopped on time,8,10
+pigeon-13,32,restart time limit,,stopped on time,10,2
+gsvm2rl3,32,restart time limit,,stopped on time,20,11
+rlp1,32,restart time limit,,stopped on time,11,8
+prod1,32,restart time limit,,stopped on nodes,20,20
+assign1-5-8,32,restart time limit,,stopped on time,11,6
+newdano,32,restart time limit,,stopped on time,20,1
+pigeon-10,32,restart time limit,,stopped on time,10,3
+supportcase26,32,max number restarts,,stopped on time,20,10
+mik-250-20-75-1,32,restart time limit,,stopped on time,19,3
+noswot,32,restart time limit,,stopped on nodes,10,10
+neos-3611447-jijia,32,restart time limit,,stopped on time,20,4
+graphdraw-gemcutter,32,restart time limit,,stopped on nodes,10,10
+blend2,32,corrupted cuts,,stopped on nodes,,
+gt2,32,restart time limit,,stopped on nodes,10,10
+misc07,32,restart time limit,,stopped on time,20,4
+gen,32,restart optimality,,stopped on nodes,4,4
+exp-1-500-5-5,32,python failure,"(990, 990)",,,
+markshare_4_0,32,corrupted cuts,,stopped on nodes,,
+neos18,32,python failure,"(3312, 3312)",,,
+ran13x13,32,max number restarts,,stopped on time,20,7
+bienst1,32,restart time limit,,stopped on time,14,1
+breastcancer-regularized,32,python failure,could not convert string to float: 'Objective',,,
+gen-ip021,32,restart time limit,,stopped on nodes,10,16
+gen-ip054,32,corrupted cuts,,stopped on nodes,,
+neos-1442119,32,restart time limit,,stopped on time,10,3
+ej,32,corrupted cuts,,stopped on nodes,,
+mas74,32,restart optimality,,solution,11,11
+neos-2624317-amur,32,restart time limit,,stopped on nodes,9,9
+22433,32,restart optimality,,stopped on nodes,20,20
+neos-1425699,32,restart optimality,,stopped on nodes,2,5
+neos-5192052-neckar,32,restart optimality,,stopped on nodes,5,5
+neos17,32,restart time limit,,stopped on time,10,11
+k16x240b,32,restart time limit,,stopped on time,20,7
+nexp-50-20-1-1,32,max number restarts,,stopped on time,19,11
+neos-3046615-murg,32,corrupted cuts,,stopped on time,,
+glass4,32,python failure,lung,,,
+neos-911970,32,restart time limit,,stopped on time,20,6
+sp150x300d,32,restart time limit,,stopped on time,20,5
+timtab1CUTS,32,restart time limit,,stopped on time,20,3
+timtab1,32,restart time limit,,stopped on time,20,3
+neos-3610051-istra,32,restart time limit,,stopped on time,20,2
+mik-250-20-75-2,32,restart time limit,,stopped on time,20,5
+beavma,32,restart time limit,,stopped on time,14,4
+neos-3610040-iskar,32,restart time limit,,stopped on time,17,4
+neos18,16,restart time limit,,stopped on time,10,2
+neos-3072252-nete,32,restart time limit,,stopped on time,11,5
+bppc8-02,32,restart time limit,,stopped on time,10,6
+mik-250-20-75-3,32,restart time limit,,stopped on time,20,6
+prod2,32,restart time limit,,stopped on time,20,7
+neos-3610173-itata,32,restart time limit,,stopped on time,20,2
+mik-250-20-75-4,32,restart time limit,,stopped on time,20,5
+danoint,32,restart time limit,,stopped on time,10,2
+supportcase20,32,restart time limit,,stopped on time,20,2
+mik-250-20-75-5,32,restart time limit,,stopped on time,20,5
+aflow30a,32,restart time limit,,stopped on time,20,2
+bppc8-09,32,restart time limit,,stopped on time,11,1
